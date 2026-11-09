@@ -28,11 +28,20 @@ Hosting: any static host. `vercel.json` (Vercel) and `public/_redirects` (Cloudf
 | `/` | Cinematic hero, statement, four-seasons horizontal scroll, featured destinations, experience index, gallery strip, sample routes, map, why KashWay, trip planner |
 | `/destinations` | Search + season/type filters, editorial grid, full map |
 | `/destinations/:slug` | Srinagar, Gulmarg, Sonamarg, Pahalgam, Doodhpathri, Yusmarg: hero, facts, story, top sights, things to do, best time, culture/food/stay, tips, local map, routes, nearby |
-| `/experiences` | 13 experiences, filter by category (`?c=food` etc. deep-links) |
+| `/experiences` | 14 experiences, filter by category (`?c=food` etc. deep-links) |
 | `/guides` | Six-chapter travel guide with sticky contents and FAQ (FAQPage structured data) |
-| `/gallery` | Filterable gallery with keyboard/swipe lightbox |
+| `/gallery` | Filterable gallery that opens the zoomable photo viewer |
 | `/about` | Story, mission, vision, what makes KashWay different, photo credits |
 | `/plan` | Destination tiles that open the planner; `?to=gulmarg` opens it pre-filled |
+
+## Design notes (Apple Human Interface Guidelines)
+
+The look follows the HIG, adapted for the web:
+
+- **Smooth corners.** Photos and cards use a small set of radius tokens (`--r-xl`, `--r-lg`, `--r-md`, `--r-sm` in `base.css`), with nested shapes kept concentric. Browsers that support `corner-shape` get continuous “squircle” corners like iOS.
+- **Glass only on controls.** The nav lifts into a floating glass capsule once you scroll; the phone bottom bar, menus, map card and photo-viewer controls use the same material. Photos and text are never put behind glass. Reduced transparency and increased contrast swap the glass for solid fills.
+- **Thumb reach on phones.** On small screens “Plan your trip” moves to a bottom bar that steps aside while you read and returns when you scroll up. The planner opens as a sheet with rounded top corners, and safe areas are respected.
+- **Photo viewer.** Tap any photo to open it full screen. It grows out of the photo you tapped. Pinch, double-tap, click, scroll or trackpad-pinch to zoom; drag to pan; swipe sideways to move between photos and swipe down to close. Every gesture also has a button or key (Zoom, arrows, Close, `Esc`, `+` `-` `0`), and reduced motion swaps the movement for fades. See `src/components/PhotoViewer.jsx`.
 
 ## The trip planner
 
@@ -57,4 +66,4 @@ Nothing claims an enquiry was received unless a backend confirmed it.
 2. **Photography.** The current photos were supplied by KashWay and appear to be web downloads at about 736 px wide. Licences need confirming, and full-resolution originals will make the desktop hero much sharper. See `PHOTO-NOTES.md`.
 3. **Real business content.** No prices, packages, testimonials, statistics or awards have been invented. Add them in `src/data/content.js` when KashWay provides them. The About story is written from the brand’s public profile and should be checked by KashWay.
 4. **Map tiles.** OpenStreetMap’s public tile server suits low traffic only; set `VITE_TILE_URL` to a keyed provider for production.
-5. Contour illustrations stand in for Pahalgam, Doodhpathri and Yusmarg until real photos exist.
+5. Contour illustrations stand in for experiences that don’t have a photograph yet.

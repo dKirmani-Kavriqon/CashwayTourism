@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import Picture from '../components/Picture.jsx';
+import { ZoomPhoto } from '../components/PhotoViewer.jsx';
 import Topo from '../components/Topo.jsx';
 import MapView from '../components/MapView.jsx';
 import { usePlanner } from '../components/Planner.jsx';
@@ -31,6 +32,8 @@ export default function Destination() {
     },
   });
   const { open } = usePlanner();
+  // Every photo that really shows this place, lead photo first, for the full-screen viewer.
+  const album = d ? [d.image, ...Object.keys(PHOTOS).filter((k) => PHOTOS[k].place === d.slug && k !== d.image)].filter(Boolean) : [];
   const heroRef = useRef(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
@@ -57,7 +60,7 @@ export default function Destination() {
         <div className="dhero__media">
           <ClipReveal className="dhero__clip">
             <motion.div style={{ y: imgY }} className="dhero__img" initial={reduce ? false : { scale: 1.2 }} animate={{ scale: 1 }} transition={{ duration: 2.6, ease: EASE }}>
-              {d.image ? <Picture name={d.image} priority sizes="(min-width: 900px) 45vw, 100vw" />
+              {d.image ? <ZoomPhoto name={d.image} group={album} priority sizes="(min-width: 900px) 45vw, 100vw" />
                 : <Topo seed={d.slug} accent={d.accent} rings={18} />}
             </motion.div>
           </ClipReveal>
@@ -79,7 +82,7 @@ export default function Destination() {
           <h2 id="story-h" className="dstory__h"><SplitWords text={`About ${d.name}`} inView /></h2>
           <Reveal className="prose dstory__text">{d.story.map((p, i) => <p key={i}>{p}</p>)}</Reveal>
           {d.altImage && (
-            <ClipReveal className="dstory__img"><Picture name={d.altImage} sizes="(min-width: 900px) 28vw, 100vw" /><p className="cap">{PHOTOS[d.altImage].caption}</p></ClipReveal>
+            <ClipReveal className="dstory__img"><ZoomPhoto name={d.altImage} group={album} sizes="(min-width: 900px) 28vw, 100vw" /><p className="cap">{PHOTOS[d.altImage].caption}</p></ClipReveal>
           )}
         </div>
       </section>

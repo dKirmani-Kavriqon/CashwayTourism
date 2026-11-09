@@ -40,6 +40,21 @@
   --maxw: 1440px;
   --nav-h: 76px;
 
+  /* Corner radii. HIG Layout: keep corners concentric, so a nested shape's radius is the
+     outer radius minus the padding between them. Photos use the larger, softer curves. */
+  --r-xl: clamp(22px, 1rem + 1.1vw, 34px);  /* hero photos, sheets, map */
+  --r-lg: clamp(18px, 0.85rem + 0.6vw, 26px); /* cards and gallery photos */
+  --r-md: 14px;                              /* thumbnails, small cards */
+  --r-sm: 10px;                              /* inputs, list rows */
+  --r-pill: 999px;
+
+  /* Glass material for the functional layer only (nav, bars, viewer controls). HIG Materials / Liquid Glass. */
+  --glass-tint: rgba(246, 246, 241, 0.66);
+  --glass-tint-strong: rgba(246, 246, 241, 0.86);
+  --glass-edge: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 12px 32px -14px rgba(10, 16, 13, 0.35), 0 1px 2px rgba(10, 16, 13, 0.06);
+  --glass-blur: blur(24px) saturate(1.6);
+
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-film: cubic-bezier(0.65, 0, 0.35, 1);
   --dur: 0.6s;
@@ -61,6 +76,10 @@
     --chinar-ink: #111714; /* 6.0:1 on chinar */
     --chinar-deep: #f08f68;
     --focus: #6cb0ee;
+    --glass-tint: rgba(27, 36, 32, 0.62);
+    --glass-tint-strong: rgba(27, 36, 32, 0.86);
+    --glass-edge: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.6);
     color-scheme: dark;
   }
 }
@@ -95,7 +114,6 @@ ul[role='list'], ol[role='list'] { list-style: none; padding: 0; }
 :focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 .sr-only {
@@ -201,12 +219,64 @@ em, .italic { font-style: italic; font-family: var(--serif); }
 .dark .chip[aria-pressed='true'] { color: var(--deodar); }
 
 /* ---------- Pictures ---------- */
-.pic { position: relative; overflow: hidden; background-color: var(--mist-2); background-size: cover; background-position: center; }
+.pic { position: relative; overflow: hidden; border-radius: inherit; background-color: var(--mist-2); background-size: cover; background-position: center; }
 .pic img, .pic picture { width: 100%; height: 100%; object-fit: cover; }
 .pic img { opacity: 0; transition: opacity 0.9s var(--ease-out), transform 1.2s var(--ease-out); }
 .pic.is-loaded img { opacity: 1; }
 .pic figcaption, .cap {
   font-size: var(--t-xs); letter-spacing: 0.04em; color: var(--ink-2);
+}
+
+/* Continuous ("squircle") corners where the browser supports them, like iOS's smooth corners.
+   The squircle reads a little tighter, so the radii grow to keep the same visual softness. */
+@supports (corner-shape: squircle) {
+  :root {
+    --r-xl: clamp(28px, 1.3rem + 1.4vw, 44px);
+    --r-lg: clamp(22px, 1.05rem + 0.8vw, 34px);
+    --r-md: 18px;
+    --r-sm: 13px;
+  }
+  .r-smooth, .zoomable, .pic, .tile, .dcard__media, .xmini__media, .xitem__media, .sheet__panel, .mapx__map, .mapx__card,
+  .further__preview, .xindex__float, .drop, .field input, .field select, .field textarea, .pick, .day, .mapx__body,
+  .hero__clip, .dhero__clip, .season__media .zoomable, .trust__media, .gs .clip-inner, .dstory__img, .ahero__img, .chapter__fig {
+    corner-shape: squircle;
+  }
+}
+
+/* ---------- Glass (functional layer only) ---------- */
+.glass {
+  background: var(--glass-tint);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- Zoomable photos ---------- */
+.zoomable {
+  position: relative; display: block; width: 100%; height: 100%; padding: 0; margin: 0; border: 0;
+  background: none; color: inherit; text-align: inherit; font: inherit;
+  cursor: zoom-in; border-radius: inherit; overflow: hidden; isolation: isolate;
+  -webkit-tap-highlight-color: transparent; transition: transform 0.35s var(--ease-out);
+}
+.zoomable > .pic { height: 100%; border-radius: inherit; }
+.zoomable img { transition: transform 1.1s var(--ease-out), opacity 0.9s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .zoomable:hover img { transform: scale(1.04); }
+}
+.zoomable:active { transform: scale(0.985); }
+.zoomable:focus-visible { outline-offset: 4px; }
+.zoomable__hint {
+  position: absolute; right: 12px; bottom: 12px; z-index: 2;
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+  color: #141c18; background: rgba(246, 246, 241, 0.72);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  opacity: 0; transform: scale(0.85); transition: opacity 0.3s var(--ease-out), transform 0.4s var(--ease-out);
+  pointer-events: none;
+}
+.zoomable:hover .zoomable__hint, .zoomable:focus-visible .zoomable__hint { opacity: 1; transform: none; }
+@media (hover: none) {
+  .zoomable__hint { opacity: 0.94; transform: none; width: 32px; height: 32px; right: 10px; bottom: 10px; }
 }
 
 /* ---------- Reduced motion ---------- */
@@ -215,6 +285,12 @@ em, .italic { font-style: italic; font-family: var(--serif); }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .nav.is-solid, .sheet__backdrop { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  :root { --glass-tint: var(--snow); --glass-tint-strong: var(--snow); }
+  .nav.is-solid, .sheet__backdrop, .glass, .nav__inner::before, .zoomable__hint, .drop { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .zoomable__hint { background: #f6f6f1; }
+}
+@media (prefers-contrast: more) {
+  .glass, .nav__inner::before, .drop { background: var(--snow); border-color: var(--ink); }
 }
 .clip-inner { height: 100%; }
+.clip-inner, .hero__zoom, .dhero__img { border-radius: inherit; }

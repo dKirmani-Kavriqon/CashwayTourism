@@ -4,6 +4,8 @@ import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring } from 
 import Nav from './components/Nav.jsx';
 import Footer from './components/Footer.jsx';
 import { PlannerProvider } from './components/Planner.jsx';
+import { ViewerProvider } from './components/PhotoViewer.jsx';
+import MobileBar from './components/MobileBar.jsx';
 import Intro from './components/Intro.jsx';
 import Home from './pages/Home.jsx';
 import { EASE } from './lib/motion.jsx';
@@ -50,6 +52,7 @@ export default function App() {
 
   return (
     <PlannerProvider>
+    <ViewerProvider>
       <Intro />
       <ScrollProgress />
       <Nav />
@@ -71,6 +74,8 @@ export default function App() {
         </Suspense>
       </main>
       <Footer />
+      <MobileBar />
+    </ViewerProvider>
     </PlannerProvider>
   );
 }

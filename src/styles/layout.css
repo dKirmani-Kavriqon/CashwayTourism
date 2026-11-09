@@ -29,11 +29,30 @@
   background: linear-gradient(var(--mist) 10%, transparent);
   opacity: 0.85; transition: opacity 0.4s;
 }
-.nav.is-solid { --nav-h: 64px; background: color-mix(in srgb, var(--mist) 82%, transparent); backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2); box-shadow: 0 1px 0 var(--line); }
+.nav.is-solid { --nav-h: 68px; }
 .nav.is-solid::before { opacity: 0; }
-.nav__inner { position: relative; height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+.nav__inner {
+  position: relative; height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  transition: padding 0.4s var(--ease-out);
+}
+/* Once you scroll, the bar lifts into a floating glass capsule (HIG Liquid Glass: glass belongs to
+   the controls layer, floating above content, never on the content itself). */
+.nav__inner::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  inset: 10px max(6px, calc(var(--gutter) - 14px)) 0;
+  border-radius: var(--r-pill);
+  background: var(--glass-tint);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  opacity: 0; transform: translateY(-6px) scale(0.98);
+  transition: opacity 0.35s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.nav.is-solid .nav__inner { padding-top: 10px; }
+.nav.is-solid .nav__inner::before { opacity: 1; transform: none; }
+.nav.is-solid .brand img { width: 36px; height: 36px; }
 .brand { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; min-height: 44px; }
-.brand img { width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); }
+.brand img { width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 0 0 1px var(--line); transition: width 0.4s var(--ease-out), height 0.4s var(--ease-out); }
 .brand .wordmark { font-size: 0.95rem; }
 .nav__links { display: flex; align-items: center; gap: clamp(0.75rem, 1.6vw, 2rem); }
 .nav__link {
@@ -51,16 +70,18 @@
 .nav__caret svg { transition: transform 0.3s var(--ease-out); }
 .nav__drop.is-open .nav__caret svg { transform: rotate(180deg); }
 .drop {
-  position: absolute; top: 100%; left: -1.25rem; width: 340px; padding: 1rem 1.25rem 1.25rem;
-  background: var(--snow); border: 1px solid var(--line); border-radius: 6px;
-  box-shadow: 0 24px 60px -24px rgba(20, 28, 24, 0.35);
+  position: absolute; top: calc(100% + 6px); left: -1.25rem; width: 340px; padding: 0.75rem 0.75rem 1rem;
+  background: var(--glass-tint-strong); border: 1px solid var(--glass-edge); border-radius: var(--r-lg);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: 0 24px 60px -24px rgba(20, 28, 24, 0.45);
 }
 .drop ul { display: grid; gap: 0.15rem; margin-bottom: 0.5rem; }
 .drop__item {
   display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.6rem 0.5rem;
-  text-decoration: none; border-radius: 4px; transition: background 0.25s;
+  text-decoration: none; border-radius: calc(var(--r-lg) - 0.75rem); transition: background 0.25s;
 }
-.drop__item:hover, .drop__item:focus-visible { background: var(--mist); }
+.drop__item:hover, .drop__item:focus-visible { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.drop > .link-arrow { margin-inline: 0.5rem; }
 .drop__name { font-family: var(--serif); font-size: 1.25rem; }
 .drop__meta { font-size: var(--t-xs); color: var(--ink-2); }
 .nav__end { display: flex; align-items: center; gap: 0.5rem; }
@@ -74,7 +95,8 @@
   .nav__links { display: none; }
   .menu-btn { display: grid; }
 }
-@media (max-width: 520px) {
+/* On phones the main action moves to the bottom bar, within thumb reach. */
+@media (max-width: 720px) {
   .nav__cta { display: none; }
 }
 
@@ -143,3 +165,17 @@
   to { transform: translate3d(3%, -2%, 0) scale(1.06); }
 }
 .mmenu ul.mmenu__list { padding-inline: var(--gutter); }
+
+/* ---------- Phone bottom bar ---------- */
+.mbar {
+  position: fixed; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 12px); z-index: 45;
+  display: none; justify-content: center; padding-inline: 12px; pointer-events: none;
+}
+@media (max-width: 720px) { .mbar { display: flex; } }
+.mbar__in { pointer-events: auto; display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: var(--r-pill); }
+.mbar__link {
+  display: inline-flex; align-items: center; gap: 0.45rem; min-height: 46px; padding: 0 1.1rem;
+  border-radius: var(--r-pill); text-decoration: none; font-size: var(--t-sm); font-weight: 600; color: var(--ink);
+}
+.mbar__link:active { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+.mbar__cta { min-height: 46px; padding-inline: 1.25rem; box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--chinar) 70%, transparent); }

@@ -28,3 +28,9 @@ export const Instagram = ({ size = 18 }) => (
 export const Expand = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 16 16" aria-hidden="true"><path d="M10 2h4v4M6 14H2v-4M14 2L9 7M2 14l5-5" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
 );
+export const ZoomIn = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.75" fill="none" stroke="currentColor" strokeWidth="1.6"/><path d="M12.8 12.8L17.5 17.5M8.5 6v5M6 8.5h5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>
+);
+export const ZoomOut = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.75" fill="none" stroke="currentColor" strokeWidth="1.6"/><path d="M12.8 12.8L17.5 17.5M6 8.5h5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>
+);
