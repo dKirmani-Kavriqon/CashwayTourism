@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import Picture from '../components/Picture.jsx';
+import { ZoomPhoto } from '../components/PhotoViewer.jsx';
 import Topo from '../components/Topo.jsx';
 import MapView from '../components/MapView.jsx';
 import { PlaceTiles, usePlanner } from '../components/Planner.jsx';
@@ -42,6 +43,7 @@ export default function Home() {
 }
 
 /* ------------------------------------------------------------------ Hero */
+const HERO_SET = ['dal-autumn', 'gulmarg-gondola', 'sonamarg-bridge'];
 function Hero() {
   const ref = useRef(null);
   const reduce = useReducedMotion();
@@ -79,7 +81,7 @@ function Hero() {
         <motion.figure className="hero__ph hero__ph--a" style={{ y: yA }}>
           <ClipReveal delay={0.2} className="hero__clip">
             <motion.div className="hero__zoom" {...zoom(0.2)}>
-              <Picture name="dal-autumn" priority sizes="(min-width: 900px) 34vw, 100vw" />
+              <ZoomPhoto name="dal-autumn" group={HERO_SET} priority sizes="(min-width: 900px) 34vw, 100vw" />
             </motion.div>
           </ClipReveal>
           <figcaption className="cap">{PHOTOS['dal-autumn'].caption}</figcaption>
@@ -87,7 +89,7 @@ function Hero() {
         <motion.figure className="hero__ph hero__ph--b" style={{ y: yB }}>
           <ClipReveal delay={0.55} className="hero__clip">
             <motion.div className="hero__zoom" {...zoom(0.55)}>
-              <Picture name="gulmarg-gondola" priority sizes="(min-width: 900px) 18vw, 40vw" />
+              <ZoomPhoto name="gulmarg-gondola" group={HERO_SET} priority sizes="(min-width: 900px) 18vw, 40vw" />
             </motion.div>
           </ClipReveal>
           <figcaption className="cap">Gulmarg</figcaption>
@@ -95,7 +97,7 @@ function Hero() {
         <motion.figure className="hero__ph hero__ph--c" style={{ y: yC }}>
           <ClipReveal delay={0.8} className="hero__clip">
             <motion.div className="hero__zoom" {...zoom(0.8)}>
-              <Picture name="sonamarg-bridge" sizes="(min-width: 900px) 16vw, 36vw" />
+              <ZoomPhoto name="sonamarg-bridge" group={HERO_SET} sizes="(min-width: 900px) 16vw, 36vw" />
             </motion.div>
           </ClipReveal>
           <figcaption className="cap">Sonamarg</figcaption>
@@ -186,7 +188,7 @@ function Seasons() {
           {SEASON_PANELS.map((s, i) => (
             <li key={s.key} className="season">
               <div className="season__media">
-                <Picture name={s.img} sizes="(min-width: 900px) 30vw, 80vw" alt={PHOTOS[s.img].alt} />
+                <ZoomPhoto name={s.img} group={SEASON_PANELS.map((p) => p.img)} sizes="(min-width: 900px) 30vw, 80vw" />
                 <span className="cap">{s.imgNote || PHOTOS[s.img].caption}</span>
               </div>
               <div className="season__text">
@@ -265,7 +267,11 @@ function Featured() {
             {rest.map((d) => (
               <motion.div key={d.slug} className="further__plate" initial={false}
                 animate={{ opacity: hover === d.slug ? 1 : 0, scale: hover === d.slug ? 1 : 1.04 }} transition={{ duration: 0.6, ease: EASE }}>
-                <Topo seed={d.slug} accent={d.accent} label={d.name} sub={d.distance} />
+                {d.image ? (
+                  <Picture name={d.image} sizes="(min-width: 900px) 30vw, 1px" alt="">
+                    <span className="further__label"><span className="further__label-n">{d.name}</span><span>{d.distance}</span></span>
+                  </Picture>
+                ) : <Topo seed={d.slug} accent={d.accent} label={d.name} sub={d.distance} />}
               </motion.div>
             ))}
           </div>
@@ -350,9 +356,7 @@ function GalleryStrip() {
           </div>
           {items.map((it) => (
             <motion.figure key={it.n} className={`gs ${it.c}`} style={{ y: it.y }}>
-              <Link to="/gallery" aria-label={`Open the gallery: ${PHOTOS[it.n].caption}`}>
-                <ClipReveal><Picture name={it.n} sizes="(min-width: 900px) 24vw, 50vw" /></ClipReveal>
-              </Link>
+              <ClipReveal><ZoomPhoto name={it.n} group={items.map((x) => x.n)} sizes="(min-width: 900px) 24vw, 50vw" /></ClipReveal>
               <figcaption className="cap">{PHOTOS[it.n].caption}</figcaption>
             </motion.figure>
           ))}
@@ -409,7 +413,7 @@ function Trust() {
     <section className="section trust" aria-labelledby="trust-h">
       <div className="wrap trust__grid">
         <Reveal className="trust__media">
-          <Picture name="houseboat" sizes="(min-width: 900px) 34vw, 100vw" />
+          <ZoomPhoto name="houseboat" sizes="(min-width: 900px) 34vw, 100vw" />
         </Reveal>
         <div>
           <Reveal><span className="eyebrow">Why KashWay</span></Reveal>

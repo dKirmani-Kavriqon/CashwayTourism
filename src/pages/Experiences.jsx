@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import Picture from '../components/Picture.jsx';
+import { ZoomPhoto } from '../components/PhotoViewer.jsx';
 import Topo from '../components/Topo.jsx';
 import { usePlanner } from '../components/Planner.jsx';
 import { Arrow } from '../components/Icons.jsx';
@@ -12,7 +12,7 @@ import useSeo from '../lib/useSeo.js';
 export default function Experiences() {
   useSeo({
     title: 'Experiences in Kashmir',
-    description: 'Dawn shikaras, the Gulmarg Gondola, houseboat nights, craft lanes, wazwan, glacier walks and treks. Filter Kashmir experiences by what you love.',
+    description: 'Dawn shikaras, the Gulmarg Gondola, houseboat nights, craft lanes, wazwan, Lidder rafting, meadow days, glacier walks and treks. Filter Kashmir experiences by what you love.',
     path: '/experiences',
   });
   const [params, setParams] = useSearchParams();
@@ -20,6 +20,7 @@ export default function Experiences() {
   const setCat = (c) => setParams(c === 'all' ? {} : { c }, { replace: true, preventScrollReset: true });
   const list = useMemo(() => EXPERIENCES.filter((e) => cat === 'all' || e.cats.includes(cat)), [cat]);
   const { open } = usePlanner();
+  const album = useMemo(() => [...new Set(list.map((e) => e.image).filter(Boolean))], [list]);
 
   return (
     <>
@@ -54,7 +55,7 @@ export default function Experiences() {
                 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                 transition={{ duration: 0.6, ease: EASE }}>
                 <div className="xitem__media">
-                  {e.image ? <Picture name={e.image} sizes="(min-width: 900px) 40vw, 100vw" alt={PHOTOS[e.image].alt} />
+                  {e.image ? <ZoomPhoto name={e.image} group={album} sizes="(min-width: 900px) 40vw, 100vw" label={`Enlarge photo: ${e.title}`} />
                     : <Topo seed={e.slug} accent={d?.accent || '#4b6b3a'} rings={11} />}
                 </div>
                 <div className="xitem__body">

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Picture from '../components/Picture.jsx';
+import { ZoomPhoto } from '../components/PhotoViewer.jsx';
 import { usePlanner } from '../components/Planner.jsx';
 import { Arrow, Instagram } from '../components/Icons.jsx';
 import { Reveal, SplitWords, ClipReveal } from '../lib/motion.jsx';
@@ -23,7 +23,7 @@ export default function About() {
             <h1 className="display"><SplitWords text="Kashmir is about to be" /> <em><SplitWords text="experienced differently." delay={0.3} /></em></h1>
           </div>
           <ClipReveal className="ahero__img">
-            <Picture name="teaser" priority sizes="(min-width: 900px) 38vw, 100vw" />
+            <ZoomPhoto name="teaser" priority sizes="(min-width: 900px) 38vw, 100vw" />
             <p className="cap">{PHOTOS.teaser.caption}</p>
           </ClipReveal>
         </div>
@@ -82,7 +82,7 @@ export default function About() {
       <section id="credits" className="section--tight credits" aria-labelledby="credits-h">
         <div className="wrap">
           <h2 id="credits-h" className="h-sm">Photo credits</h2>
-          <p className="muted">Photographs supplied by KashWay. Contour illustrations mark places we are still photographing. If you are a photographer and see your work here uncredited, please <Link to="/plan">get in touch</Link> and we will credit or remove it.</p>
+          <p className="muted">Photographs supplied by KashWay. Contour illustrations stand in wherever we don’t have a photograph yet. If you are a photographer and see your work here uncredited, please <Link to="/plan">get in touch</Link> and we will credit or remove it.</p>
           <ul role="list" className="credits__list">
             {Object.entries(PHOTOS).map(([k, p]) => <li key={k}>{p.caption}</li>)}
           </ul>
