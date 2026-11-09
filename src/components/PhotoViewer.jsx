@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import IMAGES from '../data/images.json';
 import { PHOTOS } from '../data/content.js';
-import Picture from './Picture.jsx';
+import Picture, { imgUrl, warmPhoto } from './Picture.jsx';
 import { Arrow, Close, ZoomIn, ZoomOut } from './Icons.jsx';
 
 /*
@@ -13,7 +13,6 @@ import { Arrow, Close, ZoomIn, ZoomOut } from './Icons.jsx';
   - every gesture has a visible button or key as well (Zoom, arrows, Close, Esc, + / - / 0)
 */
 
-const BASE = import.meta.env.BASE_URL;
 const MAX = 4;
 const DOUBLE = 2.5;
 const SRC_RADIUS = 22;
@@ -47,6 +46,7 @@ export function ZoomPhoto({ name, group, sizes, priority, className = '', label,
   return (
     <button type="button" className={`zoomable ${className}`} aria-haspopup="dialog"
       aria-label={label || `Enlarge photo${caption ? `: ${caption}` : ''}`}
+      onPointerEnter={() => warmPhoto(name)} onPointerDown={() => warmPhoto(name)} onFocus={() => warmPhoto(name)}
       onClick={(e) => open(list, list.indexOf(name), e.currentTarget)}>
       <Picture name={name} sizes={sizes} priority={priority} alt="" />
       <span className="zoomable__hint" aria-hidden="true"><ZoomIn size={16} /></span>
@@ -166,6 +166,13 @@ function Viewer({ items, index, start, source, onIndex, onClose }) {
 
   // ---- effects ----------------------------------------------------------
   useLayoutEffect(() => { setBox(layout(meta)); }, [meta]);
+
+  // Fetch the photos either side, so swiping to them is instant.
+  useEffect(() => {
+    if (n < 2) return;
+    warmPhoto(items[(index + 1) % n]);
+    warmPhoto(items[(index - 1 + n) % n]);
+  }, [index, items, n]);
 
   useEffect(() => {
     const onResize = () => { setBox(layout(meta)); paint(1, 0, 0, false); };
@@ -369,7 +376,7 @@ function Viewer({ items, index, start, source, onIndex, onClose }) {
   const spring = reduce ? { duration: 0.2 } : { type: 'spring', stiffness: 260, damping: 30, mass: 0.9 };
 
   const caption = PHOTOS[name]?.caption;
-  const set = (ext) => `${BASE}img/${name}-${meta.widths.at(-1)}.${ext}`;
+  const set = (ext) => imgUrl(name, meta.widths.at(-1), ext);
 
   return (
     <motion.div ref={root} className={`pv ${chrome ? '' : 'is-bare'} ${zoomed ? 'is-zoomed' : ''}`}

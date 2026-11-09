@@ -148,7 +148,7 @@ ol.seasons__track { display: flex; width: 400%; margin: 0; padding: 0 0 0 var(--
 .dcard__media { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: var(--mist-2); border-radius: var(--r-lg); isolation: isolate; transition: transform 0.35s var(--ease-out); }
 .dcard:active .dcard__media { transform: scale(0.985); }
 .dcard__media .pic, .dcard__media .topo { height: 100%; }
-.dcard__media img, .dcard__media .topo svg { transition: transform 1.4s var(--ease-out), opacity 0.9s var(--ease-out); }
+.dcard__media img, .dcard__media .topo svg { transition: transform 1.4s var(--ease-out), opacity 0.35s ease-out; }
 .dcard:hover .dcard__media img, .dcard:hover .dcard__media .topo svg, .dcard:focus-visible .dcard__media img { transform: scale(1.05); }
 .dcard__body { padding-inline: 0.25rem; }
 .dcard__media::after {
