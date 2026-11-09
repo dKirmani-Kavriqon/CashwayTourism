@@ -7,13 +7,13 @@ import { Reveal, SplitWords, EASE } from '../lib/motion.jsx';
 import { PHOTOS } from '../data/content.js';
 import useSeo from '../lib/useSeo.js';
 
-const ORDER = ['dal-autumn', 'gulmarg-gondola', 'houseboat', 'high-meadow', 'sonamarg-bridge', 'papier-mache'];
-const FILTERS = { all: 'All', landscape: 'Landscapes', seasons: 'Seasons', culture: 'Culture & craft', adventure: 'Adventure' };
+const ORDER = ['dal-autumn', 'pahalgam', 'gulmarg-gondola', 'yusmarg', 'houseboat', 'doodhpathri', 'sonamarg-bridge', 'high-meadow', 'papier-mache'];
+const FILTERS = { all: 'All', landscape: 'Landscapes', nature: 'Meadows', seasons: 'Seasons', culture: 'Culture & craft', adventure: 'Adventure' };
 
 export default function Gallery() {
   useSeo({
     title: 'Gallery',
-    description: 'Photographs of Kashmir: Dal Lake in autumn, Gulmarg in snow, Sonamarg, houseboats, high pastures and papier-mâché craft.',
+    description: 'Photographs of Kashmir: Dal Lake in autumn, Gulmarg in snow, Pahalgam, Doodhpathri, Yusmarg, Sonamarg, houseboats and papier-mâché craft.',
     path: '/gallery',
   });
   const [f, setF] = useState('all');

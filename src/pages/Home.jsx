@@ -162,8 +162,8 @@ function Statement() {
 const SEASON_PANELS = [
   { key: 'spring', name: 'Spring', months: 'March to May', img: 'papier-mache', imgNote: 'The valley’s flowers, painted by hand in papier-mâché',
     text: 'Almond and apple blossom, and Srinagar’s tulip garden in brief, brilliant bloom.', to: '/destinations/srinagar' },
-  { key: 'summer', name: 'Summer', months: 'June to August', img: 'high-meadow',
-    text: 'Green meadows, open passes, and shepherds driving their flocks to the high pastures.', to: '/destinations/sonamarg' },
+  { key: 'summer', name: 'Summer', months: 'June to August', img: 'doodhpathri',
+    text: 'Green meadows, open passes, and shepherds driving their flocks to the high pastures.', to: '/destinations/doodhpathri' },
   { key: 'autumn', name: 'Autumn', months: 'September to November', img: 'dal-autumn',
     text: 'Clear skies, saffron harvests, and the chinars turning the lakeshore red and gold.', to: '/destinations/srinagar' },
   { key: 'winter', name: 'Winter', months: 'December to February', img: 'gulmarg-gondola',
@@ -337,7 +337,7 @@ function GalleryStrip() {
     { n: 'houseboat', y: y1, c: 'gs__a' },
     { n: 'high-meadow', y: y2, c: 'gs__b' },
     { n: 'papier-mache', y: y3, c: 'gs__c' },
-    { n: 'sonamarg-bridge', y: y2, c: 'gs__d' },
+    { n: 'yusmarg', y: y2, c: 'gs__d' },
   ];
   return (
     <section ref={ref} className="section gstrip" aria-labelledby="gs-h">
