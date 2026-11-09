@@ -1,6 +1,5 @@
 {
   "dal-autumn": {
-    "file": "dal-autumn.e100aee4",
     "w": 736,
     "h": 981,
     "widths": [
@@ -11,7 +10,6 @@
     "tone": "rgb(248,248,248)"
   },
   "doodhpathri": {
-    "file": "doodhpathri.bb8ade8c",
     "w": 736,
     "h": 735,
     "widths": [
@@ -22,7 +20,6 @@
     "tone": "rgb(8,72,8)"
   },
   "gulmarg-gondola": {
-    "file": "gulmarg-gondola.ec3d1607",
     "w": 736,
     "h": 1308,
     "widths": [
@@ -33,7 +30,6 @@
     "tone": "rgb(104,136,184)"
   },
   "high-meadow": {
-    "file": "high-meadow.8d6a52db",
     "w": 736,
     "h": 1308,
     "widths": [
@@ -44,7 +40,6 @@
     "tone": "rgb(232,248,248)"
   },
   "houseboat": {
-    "file": "houseboat.a3060824",
     "w": 673,
     "h": 1200,
     "widths": [
@@ -55,7 +50,6 @@
     "tone": "rgb(8,8,8)"
   },
   "pahalgam": {
-    "file": "pahalgam.af638ab5",
     "w": 735,
     "h": 539,
     "widths": [
@@ -66,7 +60,6 @@
     "tone": "rgb(104,184,232)"
   },
   "papier-mache": {
-    "file": "papier-mache.51c609f0",
     "w": 736,
     "h": 981,
     "widths": [
@@ -77,7 +70,6 @@
     "tone": "rgb(8,8,8)"
   },
   "sonamarg-bridge": {
-    "file": "sonamarg-bridge.8a18f829",
     "w": 735,
     "h": 1123,
     "widths": [
@@ -88,7 +80,6 @@
     "tone": "rgb(56,88,120)"
   },
   "teaser": {
-    "file": "teaser.f052b2db",
     "w": 1024,
     "h": 1280,
     "widths": [
@@ -99,7 +90,6 @@
     "tone": "rgb(232,232,216)"
   },
   "yusmarg": {
-    "file": "yusmarg.c39e0c86",
     "w": 446,
     "h": 626,
     "widths": [
