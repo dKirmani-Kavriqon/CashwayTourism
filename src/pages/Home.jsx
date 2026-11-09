@@ -184,7 +184,7 @@ function Seasons() {
           <span className="eyebrow">Four seasons, four valleys</span>
           <h2 id="seasons-h">There is no wrong time. <em>Only a different Kashmir.</em></h2>
         </div>
-        <motion.ol role="list" className="seasons__track" style={reduce ? undefined : { x }}>
+        <motion.ol role="list" className="seasons__track" data-carousel="" style={reduce ? undefined : { x }}>
           {SEASON_PANELS.map((s, i) => (
             <li key={s.key} className="season">
               <div className="season__media">

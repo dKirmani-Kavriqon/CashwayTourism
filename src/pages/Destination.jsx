@@ -22,7 +22,7 @@ export default function Destination() {
     title: d ? `${d.name}, Kashmir` : 'Not found',
     description: d ? `${d.name} (${d.meaning.toLowerCase()}): ${d.lede}` : 'Page not found.',
     path: `/destinations/${slug}`,
-    image: d?.image ? `/img/${d.image}-${IMAGES[d.image].widths.at(-1)}.jpg` : undefined,
+    image: d?.image ? `/img/${IMAGES[d.image].file}-${IMAGES[d.image].widths.at(-1)}.jpg` : undefined,
     jsonLd: d && {
       '@context': 'https://schema.org', '@type': 'TouristDestination', name: `${d.name}, Kashmir`,
       description: d.lede, geo: { '@type': 'GeoCoordinates', latitude: d.coords[0], longitude: d.coords[1] },
@@ -115,7 +115,7 @@ export default function Destination() {
           </ul>
         </div>
         {exps.length > 0 && (
-          <div className="wrap xrow">
+          <div className="wrap xrow" data-carousel="">
             {exps.map((e) => (
               <Link key={e.slug} to={`/experiences#${e.slug}`} className="xmini">
                 <div className="xmini__media">{e.image ? <Picture name={e.image} sizes="240px" alt="" /> : <Topo seed={e.slug} accent={d.accent} rings={9} />}</div>

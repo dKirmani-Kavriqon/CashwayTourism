@@ -9,7 +9,7 @@ The website for **KashWay Tour & Travels** (kashway.in), a Srinagar travel compa
 - Framer Motion for the motion system (page transitions, word reveals, clip-path image reveals, parallax, the horizontal seasons scroll)
 - Leaflet + OpenStreetMap tiles for the interactive map (loaded only when the map scrolls into view)
 - Self-hosted variable fonts: Newsreader (display/editorial) and Hanken Grotesk (UI/body)
-- `sharp` image pipeline: AVIF, WebP and JPEG at two widths, plus blur placeholders
+- `sharp` image pipeline: AVIF, WebP and JPEG at two widths, blur placeholders, and content-hashed file names so hosts can cache photos for a year
 
 ```bash
 npm install
@@ -19,6 +19,7 @@ npm run images     # rebuild public/img from raw/ after adding or replacing phot
 ```
 
 Hosting: any static host. `vercel.json` (Vercel) and `public/_redirects` (Cloudflare Pages / Netlify) send unknown paths to `index.html`.
+`vercel.json` and `public/_headers` also tell browsers to keep photos and scripts cached for a year (safe because their names change whenever their content does).
 `VITE_ROUTER=hash npm run build` makes a copy that runs from any file host without rewrites (used for previews).
 
 ## Pages
@@ -42,6 +43,14 @@ The look follows the HIG, adapted for the web:
 - **Glass only on controls.** The nav lifts into a floating glass capsule once you scroll; the phone bottom bar, menus, map card and photo-viewer controls use the same material. Photos and text are never put behind glass. Reduced transparency and increased contrast swap the glass for solid fills.
 - **Thumb reach on phones.** On small screens “Plan your trip” moves to a bottom bar that steps aside while you read and returns when you scroll up. The planner opens as a sheet with rounded top corners, and safe areas are respected.
 - **Photo viewer.** Tap any photo to open it full screen. It grows out of the photo you tapped. Pinch, double-tap, click, scroll or trackpad-pinch to zoom; drag to pan; swipe sideways to move between photos and swipe down to close. Every gesture also has a button or key (Zoom, arrows, Close, `Esc`, `+` `-` `0`), and reduced motion swaps the movement for fades. See `src/components/PhotoViewer.jsx`.
+
+## How photos load quickly
+
+- The lead photo of the page being opened (home or a destination) starts downloading in `index.html`, at the same time as the JavaScript, instead of after it (see `vite.config.js`).
+- Every photo is AVIF (WebP and JPEG as fallbacks) at the right width for the screen, with a blurred placeholder in its exact colours while it arrives.
+- Photos further down start loading about a screen and a half before you reach them, so they are ready when you scroll to them.
+- Hovering or pressing a photo starts fetching its full-size version, and the photo viewer fetches the photos either side of the one open.
+- Photos already in the browser cache appear instantly, without a fade.
 
 ## The trip planner
 
