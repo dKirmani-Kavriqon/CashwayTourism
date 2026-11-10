@@ -4,7 +4,7 @@ import { PHOTOS } from '../data/content.js';
 
 const BASE = import.meta.env.BASE_URL;
 
-/** Responsive AVIF/WebP/JPEG picture with a blurred placeholder and fade-in. */
+/** Responsive AVIF/WebP picture with a blurred placeholder and fade-in. */
 export default function Picture({
   name, sizes = '100vw', className = '', priority = false, alt, style, imgStyle, children, ratio,
 }) {
@@ -20,10 +20,9 @@ export default function Picture({
     >
       <picture>
         <source type="image/avif" srcSet={set('avif')} sizes={sizes} />
-        <source type="image/webp" srcSet={set('webp')} sizes={sizes} />
         <img
-          src={`${BASE}img/${name}-${largest}.jpg`}
-          srcSet={set('jpg')}
+          src={`${BASE}img/${name}-${largest}.webp`}
+          srcSet={set('webp')}
           sizes={sizes}
           width={meta.w}
           height={meta.h}

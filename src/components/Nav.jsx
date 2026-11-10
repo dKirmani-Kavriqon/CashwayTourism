@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { DESTINATIONS } from '../data/content.js';
-import { BRAND } from '../config.js';
+import { BRAND, WHATSAPP_CHAT, ENQUIRY_EMAIL } from '../config.js';
 import { usePlanner } from './Planner.jsx';
-import { Arrow, Close, Instagram } from './Icons.jsx';
+import { Arrow, Close, Instagram, WhatsApp } from './Icons.jsx';
 import { EASE } from '../lib/motion.jsx';
 
 const BASE = import.meta.env.BASE_URL;
@@ -122,6 +122,8 @@ export default function Nav() {
             </motion.ul>
             <div className="mmenu__foot wrap">
               <p className="muted">{BRAND.city}</p>
+              {WHATSAPP_CHAT && <a href={WHATSAPP_CHAT} target="_blank" rel="noopener noreferrer" className="link-arrow"><WhatsApp /> WhatsApp</a>}
+              {ENQUIRY_EMAIL && <a href={`mailto:${ENQUIRY_EMAIL}`} className="link-arrow mmenu__mail">{ENQUIRY_EMAIL}</a>}
               <a href={BRAND.instagram} target="_blank" rel="noopener noreferrer" className="link-arrow"><Instagram /> {BRAND.instagramHandle}</a>
             </div>
           </motion.div>

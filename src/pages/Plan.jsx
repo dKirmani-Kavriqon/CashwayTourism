@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { PlaceTiles, usePlanner } from '../components/Planner.jsx';
 import { Instagram, WhatsApp } from '../components/Icons.jsx';
 import { Reveal, SplitWords } from '../lib/motion.jsx';
-import { BRAND, WHATSAPP_NUMBER, ENQUIRY_EMAIL } from '../config.js';
+import { BRAND, WHATSAPP_CHAT, ENQUIRY_EMAIL } from '../config.js';
 import { DEST_BY_SLUG } from '../data/content.js';
 import useSeo from '../lib/useSeo.js';
 
@@ -40,9 +40,9 @@ export default function Plan() {
         <h2 id="contact-h" className="h-sm">Or reach us directly</h2>
         <ul role="list" className="contact__list">
           <li><span className="contact__k">Based in</span><span>{BRAND.city}</span></li>
-          {WHATSAPP_NUMBER && (
+          {WHATSAPP_CHAT && (
             <li><span className="contact__k">WhatsApp</span>
-              <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="link-arrow"><WhatsApp /> Message us</a></li>
+              <a href={WHATSAPP_CHAT} target="_blank" rel="noopener noreferrer" className="link-arrow"><WhatsApp /> Message us</a></li>
           )}
           {ENQUIRY_EMAIL && <li><span className="contact__k">Email</span><a href={`mailto:${ENQUIRY_EMAIL}`}>{ENQUIRY_EMAIL}</a></li>}
           <li><span className="contact__k">Instagram</span>

@@ -4,7 +4,7 @@ import Picture from './Picture.jsx';
 import Topo from './Topo.jsx';
 import { Arrow, Close, Plus, Minus, Check, WhatsApp, Instagram } from './Icons.jsx';
 import { DESTINATIONS, DEST_BY_SLUG, PLANNER_INTERESTS } from '../data/content.js';
-import { BRAND, WHATSAPP_NUMBER, ENQUIRY_EMAIL, FORM_ENDPOINT } from '../config.js';
+import { BRAND, WHATSAPP_NUMBER, WHATSAPP_LINK, ENQUIRY_EMAIL, FORM_ENDPOINT } from '../config.js';
 import { EASE } from '../lib/motion.jsx';
 
 /* --------------------------------------------------------------------------
@@ -85,6 +85,25 @@ function summary(d) {
     ['Phone', `${d.code} ${d.phone.trim()}`], ['Email', d.email.trim()], ['Note', d.note.trim()],
   ].filter(([, v]) => v);
 }
+const HAS_WHATSAPP = !!(WHATSAPP_NUMBER || WHATSAPP_LINK);
+
+/** Copies text inside the click itself, so it still works when a new tab or
+ *  the WhatsApp app takes focus straight afterwards. Returns true on success. */
+function copyNow(text) {
+  let ok = false;
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none;';
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, text.length);
+    ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+  } catch { /* fall through */ }
+  try { navigator.clipboard?.writeText(text).catch(() => {}); ok = ok || !!navigator.clipboard; } catch { /* blocked */ }
+  return ok;
+}
+
 function messageText(d) {
   return ['Hello KashWay, I’d like to plan a trip to Kashmir.', '', ...summary(d).map(([k, v]) => `${k}: ${v}`), '', 'Sent from kashway.in'].join('\n');
 }
@@ -103,7 +122,7 @@ function useSteps(d) {
     { id: 'phone', q: 'Your phone number?', help: 'We’ll reply on WhatsApp or call at your chosen time.', valid: phoneOk(d.phone) },
     { id: 'email', q: 'And your email?', help: 'Optional, for the written plan.', valid: !d.email.trim() || emailOk(d.email), optional: true },
     { id: 'note', q: 'Anything else we should know?', help: 'Optional. Occasions, dietary needs, mobility, must-sees.', valid: true, optional: true },
-    { id: 'review', q: 'Here’s your trip.', help: 'Check the details, then send them to us.', valid: true },
+    { id: 'review', q: 'Here’s your trip.', help: WHATSAPP_NUMBER || !WHATSAPP_LINK ? 'Check the details, then send them to us.' : 'Check the details. When you tap Send on WhatsApp we copy them for you, so you only need to paste and send.', valid: true },
   ], [d]);
 }
 
@@ -242,12 +261,20 @@ function PlannerSheet({ data, setData, step, setStep, status, setStatus, onClose
   /* --- sending --- */
   const msg = messageText(data);
   const sendWhatsApp = () => {
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
-    setStatus({ state: 'done', via: 'whatsapp' });
+    if (WHATSAPP_NUMBER) {
+      // With the number, WhatsApp opens with the whole enquiry already typed in.
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+      setStatus({ state: 'done', via: 'whatsapp', prefilled: true });
+      return;
+    }
+    // The business chat link can't carry text, so copy the enquiry first,
+    // in the same tap, then open the chat for the traveller to paste it.
+    const copied = copyNow(msg);
+    window.open(WHATSAPP_LINK, '_blank', 'noopener');
+    setStatus({ state: 'done', via: 'whatsapp', prefilled: false, copied });
   };
-  const sendInstagram = async () => {
-    let copied = false;
-    try { await navigator.clipboard.writeText(msg); copied = true; } catch { /* clipboard blocked */ }
+  const sendInstagram = () => {
+    const copied = copyNow(msg);
     window.open(BRAND.instagramDM, '_blank', 'noopener');
     setStatus({ state: 'done', via: 'instagram', copied });
   };
@@ -269,9 +296,7 @@ function PlannerSheet({ data, setData, step, setStep, status, setStatus, onClose
       setStatus({ state: 'error', message: e.message || 'The connection failed.' });
     }
   };
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(msg); setStatus((s) => ({ ...s, copiedNow: true })); } catch { /* ignore */ }
-  };
+  const copy = () => { if (copyNow(msg)) setStatus((s) => ({ ...s, copiedNow: true })); };
 
   const onEnter = (e) => { if (e.key === 'Enter' && !e.shiftKey && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); next(); } };
   const months = useMemo(() => nextMonths(12), []);
@@ -527,7 +552,7 @@ function PlannerSheet({ data, setData, step, setStep, status, setStatus, onClose
                           </dl>
                           {status.state === 'error' && (
                             <p className="form-error" role="alert">
-                              We couldn’t send it: {status.message} Try again, or send it on {WHATSAPP_NUMBER ? 'WhatsApp' : 'Instagram'} below.
+                              We couldn’t send it: {status.message} Try again, or send it on {HAS_WHATSAPP ? 'WhatsApp' : 'Instagram'} below.
                             </p>
                           )}
                         </>
@@ -559,7 +584,7 @@ function PlannerSheet({ data, setData, step, setStep, status, setStatus, onClose
                                 {status.state === 'sending' ? 'Sending…' : 'Send enquiry'} <Arrow />
                               </button>
                             )}
-                            {WHATSAPP_NUMBER ? (
+                            {HAS_WHATSAPP ? (
                               <button type="button" className={`btn ${FORM_ENDPOINT ? '' : 'btn--primary'}`} onClick={sendWhatsApp}>
                                 <WhatsApp /> Send on WhatsApp
                               </button>
@@ -618,7 +643,11 @@ function Done({ status, data, onClose, onReset, copy, headingRef, retry }) {
   const first = data.name.trim().split(' ')[0];
   const copy1 = {
     form: { h: `Thank you, ${first}.`, p: 'Your enquiry has reached KashWay. We’ll be in touch on your chosen channel' + (data.callDay && data.callDay !== 'none' ? ' and call you at the time you picked.' : '.') },
-    whatsapp: { h: 'Almost there.', p: 'WhatsApp has opened with your trip details written out. Press send there and it reaches us directly.' },
+    whatsapp: { h: 'Almost there.', p: status.prefilled
+      ? 'WhatsApp has opened with your trip details written out. Press send there and it reaches us directly.'
+      : status.copied
+        ? 'WhatsApp has opened a chat with KashWay and your trip details are copied. Paste them into the message box and press send.'
+        : 'WhatsApp has opened a chat with KashWay. Copy your trip details with the button below, paste them into the message box and press send.' },
     instagram: { h: 'Almost there.', p: status.copied
       ? 'Your trip details are copied. Paste them into the Instagram chat that just opened and press send.'
       : 'Instagram has opened. Copy your trip details with the button below, paste them into the chat and press send.' },

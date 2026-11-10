@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BRAND, WHATSAPP_NUMBER, ENQUIRY_EMAIL } from '../config.js';
+import { BRAND, WHATSAPP_CHAT, ENQUIRY_EMAIL } from '../config.js';
 import { DESTINATIONS } from '../data/content.js';
 import { usePlanner } from './Planner.jsx';
 import { Arrow, Instagram, WhatsApp } from './Icons.jsx';
@@ -43,7 +43,7 @@ export default function Footer() {
             <h3 className="footer__h">Talk to us</h3>
             <ul role="list">
               <li>{BRAND.city}</li>
-              {WHATSAPP_NUMBER && <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer"><WhatsApp size={16} /> WhatsApp</a></li>}
+              {WHATSAPP_CHAT && <li><a href={WHATSAPP_CHAT} target="_blank" rel="noopener noreferrer"><WhatsApp size={16} /> WhatsApp</a></li>}
               {ENQUIRY_EMAIL && <li><a href={`mailto:${ENQUIRY_EMAIL}`}>{ENQUIRY_EMAIL}</a></li>}
               <li><a href={BRAND.instagram} target="_blank" rel="noopener noreferrer"><Instagram size={16} /> {BRAND.instagramHandle}</a></li>
             </ul>

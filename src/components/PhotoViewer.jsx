@@ -391,8 +391,7 @@ function Viewer({ items, index, start, source, onIndex, onClose }) {
                 initial={{ opacity: 0, x: reduce ? 0 : dir * 60 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: reduce ? 0 : dir * -60 }}
                 transition={{ duration: reduce ? 0.15 : 0.4, ease: [0.22, 1, 0.36, 1] }}>
                 <source type="image/avif" srcSet={set('avif')} />
-                <source type="image/webp" srcSet={set('webp')} />
-                <img src={set('jpg')} alt={PHOTOS[name]?.alt || ''} width={meta.w} height={meta.h} draggable={false} />
+                <img src={set('webp')} alt={PHOTOS[name]?.alt || ''} width={meta.w} height={meta.h} draggable={false} />
               </motion.picture>
             </AnimatePresence>
           </div>

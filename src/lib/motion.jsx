@@ -1,4 +1,4 @@
-import { Fragment, useRef } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 
 export const EASE = [0.22, 1, 0.36, 1];
@@ -28,11 +28,13 @@ export function SplitWords({ text, as = 'span', className, delay = 0, stagger = 
   const reduce = useReducedMotion();
   const M = motion[as];
   const words = text.split(' ');
+  const [done, setDone] = useState(false);
   const trigger = inView
     ? { initial: 'hidden', whileInView: 'show', viewport: { once: true, amount: 0.5 } }
     : { initial: 'hidden', animate: 'show' };
   return (
-    <M className={className} {...trigger}
+    <M className={[className, done && 'split--done'].filter(Boolean).join(' ') || undefined} {...trigger}
+      onAnimationComplete={(def) => { if (def === 'show') setDone(true); }}
       variants={{ show: { transition: { staggerChildren: reduce ? 0 : stagger, delayChildren: delay } } }}>
       <span className="sr-only">{text}</span>
       {words.map((w, i) => (
@@ -41,7 +43,7 @@ export function SplitWords({ text, as = 'span', className, delay = 0, stagger = 
             <motion.span
               className="split__word"
               variants={{
-                hidden: reduce ? { opacity: 0 } : { y: '105%' },
+                hidden: reduce ? { opacity: 0 } : { y: '140%' },
                 show: reduce ? { opacity: 1 } : { y: '0%', transition: { duration: 1.1, ease: EASE } },
               }}
             >
