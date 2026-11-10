@@ -13,11 +13,7 @@ const ORDER = [
 const FILTERS = { all: 'All', landscape: 'Landscapes', nature: 'Meadows', seasons: 'Seasons', culture: 'Culture & craft', food: 'Food', adventure: 'Adventure' };
 
 export default function Gallery() {
-  useSeo({
-    title: 'Gallery',
-    description: 'Photographs of Kashmir: the Great Lakes trek, Dal Lake, Hazratbal, Jamia Masjid, the Mughal gardens, the Tulip Garden, skiing in Gulmarg, Aru and Betaab valleys, Thajiwas, Doodhpathri, Yusmarg, noon chai and wazwan.',
-    path: '/gallery',
-  });
+  useSeo('/gallery');
   const [f, setF] = useState('all');
   const items = useMemo(() => ORDER.filter((n) => f === 'all' || PHOTOS[n].tags.includes(f)), [f]);
 

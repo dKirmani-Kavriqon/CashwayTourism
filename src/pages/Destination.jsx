@@ -11,25 +11,12 @@ import { DestCard } from './Home.jsx';
 import NotFound from './NotFound.jsx';
 import { Reveal, SplitWords, ClipReveal, EASE } from '../lib/motion.jsx';
 import { DEST_BY_SLUG, EXPERIENCES, MAP_POINTS, ROUTES, SEASONS, PHOTOS } from '../data/content.js';
-import { BRAND } from '../config.js';
 import useSeo from '../lib/useSeo.js';
 
 export default function Destination() {
   const { slug } = useParams();
   const d = DEST_BY_SLUG[slug];
-  useSeo({
-    title: d ? `${d.name}, Kashmir` : 'Not found',
-    description: d ? `${d.name} (${d.meaning.toLowerCase()}): ${d.lede}` : 'Page not found.',
-    path: `/destinations/${slug}`,
-    image: d?.image ? `/og/${d.image}.jpg` : undefined,
-    jsonLd: d && {
-      '@context': 'https://schema.org', '@type': 'TouristDestination', name: `${d.name}, Kashmir`,
-      description: d.lede, geo: { '@type': 'GeoCoordinates', latitude: d.coords[0], longitude: d.coords[1] },
-      containedInPlace: { '@type': 'AdministrativeArea', name: 'Jammu and Kashmir, India' },
-      includesAttraction: d.attractions.map((a) => ({ '@type': 'TouristAttraction', name: a.name, description: a.note })),
-      provider: { '@type': 'TravelAgency', name: BRAND.legalName, url: BRAND.url },
-    },
-  });
+  useSeo(`/destinations/${slug}`);
   const { open } = usePlanner();
   // Every photo that really shows this place, lead photo first, for the full-screen viewer.
   const album = d ? [d.image, ...Object.keys(PHOTOS).filter((k) => PHOTOS[k].place === d.slug && k !== d.image)].filter(Boolean) : [];

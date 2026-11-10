@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "images": "node scripts/build-images.mjs",
+    "og": "node scripts/build-og.mjs",
     "dev": "vite",
-    "build": "vite build && node scripts/prerender-404.mjs",
+    "build": "vite build && node scripts/prerender-seo.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -8,11 +8,7 @@ import { PHOTOS } from '../data/content.js';
 import useSeo from '../lib/useSeo.js';
 
 export default function About() {
-  useSeo({
-    title: 'About KashWay',
-    description: 'KashWay Tour & Travels is a Srinagar travel company recognised by the J&K Tourism Department, planning tours, stays and experiences across Kashmir.',
-    path: '/about',
-  });
+  useSeo('/about');
   const { open } = usePlanner();
   return (
     <>

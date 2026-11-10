@@ -13,10 +13,7 @@ import { BRAND } from '../config.js';
 import useSeo from '../lib/useSeo.js';
 
 export default function Home() {
-  useSeo({
-    description: 'KashWay Tour & Travels plans tours, stays and experiences across Kashmir: Dal Lake houseboats, Gulmarg snow, Sonamarg glaciers and the meadows of Pahalgam. Based in Srinagar.',
-    path: '/',
-  });
+  useSeo('/');
   return (
     <>
       <Hero />

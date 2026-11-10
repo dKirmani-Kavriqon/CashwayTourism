@@ -4,7 +4,7 @@ import { Arrow } from '../components/Icons.jsx';
 import useSeo from '../lib/useSeo.js';
 
 export default function NotFound() {
-  useSeo({ title: 'Page not found', description: 'This page doesn’t exist. Find your way back to KashWay’s Kashmir destinations.', path: '/404' });
+  useSeo('/404');
   return (
     <section className="nf wrap">
       <div className="nf__art" aria-hidden="true"><Topo seed="lost" rings={16} /></div>
