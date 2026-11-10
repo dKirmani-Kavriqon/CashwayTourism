@@ -8,15 +8,7 @@ import Picture from '../components/Picture.jsx';
 import useSeo from '../lib/useSeo.js';
 
 export default function Guides() {
-  useSeo({
-    title: 'Kashmir travel guide',
-    description: 'When to visit Kashmir, how to get there and get around, local customs, what to pack, phones and money, and answers to common questions.',
-    path: '/guides',
-    jsonLd: {
-      '@context': 'https://schema.org', '@type': 'FAQPage',
-      mainEntity: FAQS.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-    },
-  });
+  useSeo('/guides');
   const [active, setActive] = useState(GUIDES[0].id);
   useEffect(() => {
     const io = new IntersectionObserver((entries) => {

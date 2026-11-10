@@ -8,11 +8,7 @@ import { DEST_BY_SLUG } from '../data/content.js';
 import useSeo from '../lib/useSeo.js';
 
 export default function Plan() {
-  useSeo({
-    title: 'Plan your Kashmir trip',
-    description: 'Tell KashWay where you want to go in Kashmir. Pick a place, answer a few quick questions, and book a call with our Srinagar team.',
-    path: '/plan',
-  });
+  useSeo('/plan');
   const [params] = useSearchParams();
   const { open } = usePlanner();
   useEffect(() => {

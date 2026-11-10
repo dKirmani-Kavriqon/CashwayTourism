@@ -1,7 +1,7 @@
 // Builds responsive AVIF and WebP variants and blur placeholders from raw/.
 // The site serves no JPEG photos: AVIF where the browser supports it, WebP otherwise.
-// The only JPEGs written are the social share cards (og-*.jpg), because some
-// chat apps still don't show WebP link previews.
+// The only JPEGs are the share cards in public/og/, drawn by build-og.mjs,
+// because some chat apps still don't show WebP link previews.
 // Usage: npm run images
 import sharp from 'sharp';
 import { readdir, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -12,12 +12,6 @@ const OUT = 'public/img';
 const WIDTHS = [480, 760, 1200];
 await rm(OUT, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
-await rm('public/og', { recursive: true, force: true });
-await mkdir('public/og', { recursive: true });
-
-// Destination hero photos also get a share card for their page's link preview.
-const { DESTINATIONS } = await import('../src/data/content.js');
-const SHARE = new Set(DESTINATIONS.map((d) => d.image));
 
 const manifest = {};
 for (const file of (await readdir(RAW)).sort()) {
@@ -35,8 +29,6 @@ for (const file of (await readdir(RAW)).sort()) {
   await img.clone().resize({ width: 200, height: 200, fit: 'cover', position: 'attention' }).webp({ quality: 72 }).toFile(`${OUT}/${name}-thumb.webp`);
   const lqip = await img.clone().resize({ width: 16 }).blur(1).webp({ quality: 50 }).toBuffer();
   const { dominant } = await img.clone().stats();
-  // 1200x630 share card for link previews.
-  if (SHARE.has(name)) await img.clone().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 80, mozjpeg: true }).toFile(`public/og/${name}.jpg`);
   manifest[name] = {
     w: width, h: height, widths,
     lqip: `data:image/webp;base64,${lqip.toString('base64')}`,
@@ -54,6 +46,7 @@ await logo.clone().toFile('public/logo-256.png');
 await logo.clone().resize(96, 96).toFile('public/logo-96.png');
 await logo.clone().resize(180, 180).flatten({ background: '#f2f0ee' }).toFile('public/apple-touch-icon.png');
 await logo.clone().resize(32, 32).toFile('public/favicon-32.png');
-// Open Graph card
-await sharp(`${RAW}/dal-autumn.jpg`).resize(1200, 630, { fit: 'cover', position: 'centre' }).jpeg({ quality: 82 }).toFile('public/og-kashway.jpg');
+await logo.clone().resize(192, 192).flatten({ background: '#f2f0ee' }).toFile('public/icon-192.png');
+await logo.clone().resize(512, 512).flatten({ background: '#f2f0ee' }).toFile('public/icon-512.png');
+// Share cards (public/og/*.jpg) are drawn by scripts/build-og.mjs.
 console.log('images:', Object.keys(manifest).join(', '));

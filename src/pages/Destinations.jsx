@@ -8,11 +8,7 @@ import { DESTINATIONS, SEASONS, KINDS } from '../data/content.js';
 import useSeo from '../lib/useSeo.js';
 
 export default function Destinations() {
-  useSeo({
-    title: 'Destinations in Kashmir',
-    description: 'Srinagar, Gulmarg, Sonamarg, Pahalgam, Doodhpathri and Yusmarg: when to go, what to do and where to stay, with an interactive map.',
-    path: '/destinations',
-  });
+  useSeo('/destinations');
   const [q, setQ] = useState('');
   const [season, setSeason] = useState('all');
   const [kind, setKind] = useState('all');

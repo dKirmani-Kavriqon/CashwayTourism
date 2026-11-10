@@ -10,11 +10,7 @@ import { EXPERIENCES, EXPERIENCE_CATEGORIES, DEST_BY_SLUG, PHOTOS } from '../dat
 import useSeo from '../lib/useSeo.js';
 
 export default function Experiences() {
-  useSeo({
-    title: 'Experiences in Kashmir',
-    description: 'Dawn shikaras, the Gulmarg Gondola, houseboat nights, craft lanes, wazwan, Lidder rafting, meadow days, glacier walks and treks. Filter Kashmir experiences by what you love.',
-    path: '/experiences',
-  });
+  useSeo('/experiences');
   const [params, setParams] = useSearchParams();
   const cat = params.get('c') || 'all';
   const setCat = (c) => setParams(c === 'all' ? {} : { c }, { replace: true, preventScrollReset: true });

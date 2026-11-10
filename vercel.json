@@ -1,1 +1,56 @@
-{ "rewrites": [{ "source": "/((?!img/|assets/|.*\\.).*)", "destination": "/index.html" }] }
+{
+  "rewrites": [
+    {
+      "source": "/destinations",
+      "destination": "/destinations/index.html"
+    },
+    {
+      "source": "/experiences",
+      "destination": "/experiences/index.html"
+    },
+    {
+      "source": "/guides",
+      "destination": "/guides/index.html"
+    },
+    {
+      "source": "/gallery",
+      "destination": "/gallery/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/plan",
+      "destination": "/plan/index.html"
+    },
+    {
+      "source": "/destinations/srinagar",
+      "destination": "/destinations/srinagar/index.html"
+    },
+    {
+      "source": "/destinations/gulmarg",
+      "destination": "/destinations/gulmarg/index.html"
+    },
+    {
+      "source": "/destinations/sonamarg",
+      "destination": "/destinations/sonamarg/index.html"
+    },
+    {
+      "source": "/destinations/pahalgam",
+      "destination": "/destinations/pahalgam/index.html"
+    },
+    {
+      "source": "/destinations/doodhpathri",
+      "destination": "/destinations/doodhpathri/index.html"
+    },
+    {
+      "source": "/destinations/yusmarg",
+      "destination": "/destinations/yusmarg/index.html"
+    },
+    {
+      "source": "/((?!img/|assets/|og/|.*\\.).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

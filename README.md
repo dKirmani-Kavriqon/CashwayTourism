@@ -14,11 +14,24 @@ The website for **KashWay Tour & Travels** (kashway.in), a Srinagar travel compa
 ```bash
 npm install
 npm run dev        # local development
-npm run build      # production build in dist/ (includes a 404.html SPA fallback)
+npm run build      # production build in dist/: every page prerendered with its own share tags, plus 404.html and sitemap.xml
 npm run images     # rebuild public/img from raw/ after adding or replacing photos
+npm run og         # redraw the link-preview cards in public/og/ (needs Playwright + Chromium)
 ```
 
-Hosting: any static host. `vercel.json` (Vercel) and `public/_redirects` (Cloudflare Pages / Netlify) send unknown paths to `index.html`.
+Hosting: any static host. `vercel.json` (Vercel) serves each page's prerendered HTML and sends unknown paths to `index.html`; `public/_redirects` does the latter on Cloudflare Pages / Netlify.
+
+## Search and share metadata
+
+All titles, descriptions, share cards and structured data live in `src/data/seo.js`.
+
+- **Link previews.** WhatsApp, Facebook, LinkedIn and X don't run JavaScript, so `scripts/prerender-seo.mjs` writes each page's tags into its own HTML file at build time (`dist/gallery/index.html`, `dist/destinations/gulmarg/index.html`, …). The same values are applied in the browser as people move between pages.
+- **Tags per page.** Title, description, canonical URL, robots, Open Graph (type, URL, title, description, image with size, type and alt text) and X/Twitter large-image cards.
+- **Share cards.** A 1200×630 card for every page and destination, with the page's photo, its headline in the site's fonts, the KashWay logo and the J&K Tourism recognition (`public/og/`).
+- **Structured data (JSON-LD).** The business (`TravelAgency`: address, phone, email, WhatsApp, Instagram, the places it serves) and the `WebSite` on every page. Each destination adds a `TouristDestination` with its sights and a `BreadcrumbList`, and the guide adds a `FAQPage`.
+- **Also included.** `sitemap.xml` (generated, with each page's images), `robots.txt`, a web app manifest and icons (32, 180, 192 and 512 px), and geo tags for Srinagar.
+
+The share links point at `https://kashway.in`, so previews show once the domain serves this site. Facebook's [Sharing Debugger](https://developers.facebook.com/tools/debug/) refreshes a cached preview.
 `VITE_ROUTER=hash npm run build` makes a copy that runs from any file host without rewrites (used for previews).
 
 ## Pages
