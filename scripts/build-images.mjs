@@ -31,6 +31,8 @@ for (const file of (await readdir(RAW)).sort()) {
     await r.clone().avif({ quality: 55 }).toFile(`${OUT}/${name}-${w}.avif`);
     await r.clone().webp({ quality: 78 }).toFile(`${OUT}/${name}-${w}.webp`);
   }
+  // Small square-ish thumbnail for map marker previews.
+  await img.clone().resize({ width: 200, height: 200, fit: 'cover', position: 'attention' }).webp({ quality: 72 }).toFile(`${OUT}/${name}-thumb.webp`);
   const lqip = await img.clone().resize({ width: 16 }).blur(1).webp({ quality: 50 }).toBuffer();
   const { dominant } = await img.clone().stats();
   // 1200x630 share card for link previews.

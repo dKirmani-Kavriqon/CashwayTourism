@@ -16,16 +16,15 @@ export const BRAND = {
   instagramDM: 'https://ig.me/m/kashway.in',
 };
 
-// KashWay's WhatsApp business chat link (from the WhatsApp Business app).
-// A wa.me/message/… link opens the chat but cannot carry text of its own,
-// so the trip planner copies the enquiry first and asks the traveller to
-// paste it into the chat.
-export const WHATSAPP_LINK = import.meta.env.VITE_WHATSAPP_LINK || 'https://wa.me/message/JP7YQVJ6WYF4K1';
+// KashWay's WhatsApp number in international format, digits only.
+// "Send on WhatsApp" opens a chat with this number with the whole enquiry
+// already typed into the message, so the traveller only presses send.
+export const WHATSAPP_NUMBER = (import.meta.env.VITE_WHATSAPP_NUMBER || '917006109364').replace(/\D/g, '');
 
-// KashWay's WhatsApp number in international format, digits only,
-// e.g. '9197XXXXXXXX'. When set, it takes over from the link above and the
-// enquiry is written straight into the WhatsApp message, ready to send.
-export const WHATSAPP_NUMBER = (import.meta.env.VITE_WHATSAPP_NUMBER || '').replace(/\D/g, '');
+// KashWay's WhatsApp business short link. Only used if the number above is
+// cleared: a wa.me/message/… link can't carry text, so the planner then
+// copies the enquiry and asks the traveller to paste it.
+export const WHATSAPP_LINK = import.meta.env.VITE_WHATSAPP_LINK || 'https://wa.me/message/JP7YQVJ6WYF4K1';
 
 // Where the "Message us on WhatsApp" links point.
 export const WHATSAPP_CHAT = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}` : WHATSAPP_LINK;

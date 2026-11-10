@@ -6,15 +6,16 @@ import { PHOTOS } from '../data/content.js';
 import useSeo from '../lib/useSeo.js';
 
 const ORDER = [
-  'dal-autumn', 'gulmarg-skiing', 'pahalgam', 'tulip-garden', 'gulmarg-gondola', 'noon-chai', 'yusmarg', 'houseboat',
-  'first-snow', 'doodhpathri', 'wazwan', 'sonamarg-bridge', 'high-meadow', 'papier-mache',
+  'great-lakes', 'dal-autumn', 'gulmarg-skiing', 'betaab-valley', 'hazratbal', 'pahalgam', 'tulip-garden', 'shalimar-bagh',
+  'gulmarg-gondola', 'noon-chai', 'aru-valley', 'jamia-masjid', 'yusmarg', 'nishat-bagh', 'houseboat', 'thajiwas-glacier',
+  'first-snow', 'tulip-rows', 'doodhpathri', 'wazwan', 'sonamarg-bridge', 'high-meadow', 'papier-mache',
 ];
 const FILTERS = { all: 'All', landscape: 'Landscapes', nature: 'Meadows', seasons: 'Seasons', culture: 'Culture & craft', food: 'Food', adventure: 'Adventure' };
 
 export default function Gallery() {
   useSeo({
     title: 'Gallery',
-    description: 'Photographs of Kashmir: Dal Lake in autumn, skiing in Gulmarg, the Tulip Garden, Pahalgam, Doodhpathri, Yusmarg, Sonamarg, noon chai, wazwan, houseboats and papier-mâché craft.',
+    description: 'Photographs of Kashmir: the Great Lakes trek, Dal Lake, Hazratbal, Jamia Masjid, the Mughal gardens, the Tulip Garden, skiing in Gulmarg, Aru and Betaab valleys, Thajiwas, Doodhpathri, Yusmarg, noon chai and wazwan.',
     path: '/gallery',
   });
   const [f, setF] = useState('all');

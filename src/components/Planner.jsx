@@ -263,6 +263,8 @@ function PlannerSheet({ data, setData, step, setStep, status, setStatus, onClose
   const sendWhatsApp = () => {
     if (WHATSAPP_NUMBER) {
       // With the number, WhatsApp opens with the whole enquiry already typed in.
+      // It is also copied, as a backup for WhatsApp apps that drop the text.
+      copyNow(msg);
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
       setStatus({ state: 'done', via: 'whatsapp', prefilled: true });
       return;
