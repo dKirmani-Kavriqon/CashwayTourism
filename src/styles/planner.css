@@ -5,7 +5,7 @@
 .tile {
   position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; padding: 0; border: 0; overflow: hidden; border-radius: var(--r-lg);
   transition: transform 0.35s var(--ease-out);
-  background: var(--deodar); color: #fff; text-align: left; isolation: isolate;
+  background: var(--deodar); color: #fff; text-align: left; isolation: isolate; container-type: inline-size;
 }
 .tile__img { position: absolute !important; inset: 0; height: 100%; z-index: -2; }
 .tile__img img, .tile__img svg { transition: transform 1.2s var(--ease-out); }
@@ -13,7 +13,7 @@
 .tile:hover .tile__img img, .tile:hover .tile__img svg, .tile:focus-visible .tile__img img { transform: scale(1.07); }
 .tile__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(9, 14, 11, 0.82) 0%, rgba(9, 14, 11, 0.15) 55%, transparent 80%); }
 .tile__text { position: absolute; left: 1.1rem; right: 3.5rem; bottom: 1.1rem; display: grid; gap: 0.2rem; }
-.tile__name { font-family: var(--serif); font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem); line-height: 1; }
+.tile__name { font-family: var(--serif); font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem); font-size: min(clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem), 14cqi); line-height: 1; overflow-wrap: break-word; }
 .tile__meta { font-size: var(--t-xs); color: rgba(255, 255, 255, 0.86); }
 .tile__go {
   position: absolute; right: 1rem; bottom: 1rem; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
