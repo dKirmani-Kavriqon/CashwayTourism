@@ -9,7 +9,7 @@ export const BRAND = {
   offer: ['Tours', 'Stays', 'Experiences'],
   recognition: 'Recognised by the J&K Tourism Department',
   city: 'Srinagar, Jammu & Kashmir',
-  url: 'https://kashway.in',
+  url: 'https://www.kashwaytours.com',
   instagram: 'https://www.instagram.com/kashway.in/',
   instagramHandle: '@kashway.in',
   // Opens an Instagram direct-message thread with the account.
