@@ -16,13 +16,22 @@ export const BRAND = {
   instagramDM: 'https://ig.me/m/kashway.in',
 };
 
-// KashWay's WhatsApp number in international format, digits only,
-// e.g. '9197XXXXXXXX'. While empty, the trip planner hands enquiries
-// over through an Instagram DM (copying the details first) instead.
-export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '';
+// KashWay's WhatsApp business chat link (from the WhatsApp Business app).
+// A wa.me/message/… link opens the chat but cannot carry text of its own,
+// so the trip planner copies the enquiry first and asks the traveller to
+// paste it into the chat.
+export const WHATSAPP_LINK = import.meta.env.VITE_WHATSAPP_LINK || 'https://wa.me/message/JP7YQVJ6WYF4K1';
 
-// Optional public email for enquiries. Adds an "Email instead" option.
-export const ENQUIRY_EMAIL = import.meta.env.VITE_ENQUIRY_EMAIL || '';
+// KashWay's WhatsApp number in international format, digits only,
+// e.g. '9197XXXXXXXX'. When set, it takes over from the link above and the
+// enquiry is written straight into the WhatsApp message, ready to send.
+export const WHATSAPP_NUMBER = (import.meta.env.VITE_WHATSAPP_NUMBER || '').replace(/\D/g, '');
+
+// Where the "Message us on WhatsApp" links point.
+export const WHATSAPP_CHAT = WHATSAPP_NUMBER ? `https://wa.me/${WHATSAPP_NUMBER}` : WHATSAPP_LINK;
+
+// Public email for enquiries.
+export const ENQUIRY_EMAIL = import.meta.env.VITE_ENQUIRY_EMAIL || 'contactkashway@gmail.com';
 
 // Optional form backend (Formspree, Web3Forms, a Cloudflare Worker…).
 // When set, the planner POSTs the enquiry as JSON and shows the real

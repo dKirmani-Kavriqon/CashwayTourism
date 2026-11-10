@@ -109,7 +109,9 @@
   text-decoration: none; color: var(--on-dark);
 }
 .mmenu__link.active { font-style: italic; color: var(--chinar-on-dark); }
-.mmenu__foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 2.5rem; border-top: 1px solid var(--line-dark); }
+.mmenu__foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-block: 1.5rem 2.5rem; border-top: 1px solid var(--line-dark); }
+.mmenu__foot p { flex-basis: 100%; }
+.mmenu__mail, .footer ul a[href^='mailto:'], .contact__list a[href^='mailto:'] { overflow-wrap: anywhere; }
 
 .icon-btn {
   display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
@@ -135,8 +137,17 @@
 @media (max-width: 860px) { .sec-head--split { grid-template-columns: 1fr; } }
 .h-sm { font-size: var(--t-xl); margin-bottom: 1.5rem; }
 
-.split__mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.12em 0.08em 0; margin: 0 -0.12em -0.08em 0; }
+.split__mask {
+  /* The mask hides each word below the line while it rises. Generous padding
+     (cancelled by equal negative margins, so layout is unchanged) leaves room
+     for italic overhangs, accents and descenders such as y, g, f and p. */
+  display: inline-block; overflow: hidden; vertical-align: top;
+  padding: 0.12em 0.2em 0.3em 0.16em; margin: -0.12em -0.2em -0.3em -0.16em;
+}
 .split__word { display: inline-block; will-change: transform; }
+/* Once the words have risen, drop the mask so nothing is ever cut. */
+.split--done .split__mask { overflow: visible; }
+.split--done .split__word { will-change: auto; }
 
 /* ---------- Footer ---------- */
 .footer { padding-top: clamp(4rem, 3rem + 5vw, 8rem); overflow: hidden; }
@@ -152,8 +163,10 @@
 .footer ul a:hover { color: var(--chinar-on-dark); }
 .footer ul li { color: var(--on-dark); }
 .footer__base { position: relative; padding-bottom: 2rem; }
+.footer__base { container-type: inline-size; }
 .footer__mark {
-  display: block; font-size: clamp(3.5rem, 1rem + 15vw, 15rem); line-height: 0.9; letter-spacing: 0.12em;
+  /* Sized to the footer's width so all seven letters always fit edge to edge. */
+  display: block; font-size: min(15rem, 13vw); font-size: min(15rem, 17cqi); line-height: 0.9; letter-spacing: 0.12em;
   color: transparent; -webkit-text-stroke: 1px var(--line-dark); white-space: nowrap; margin-bottom: 1.5rem;
 }
 .footer__base p { font-size: var(--t-xs); }

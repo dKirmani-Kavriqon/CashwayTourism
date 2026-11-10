@@ -1,13 +1,23 @@
-// Builds responsive AVIF/WebP/JPEG variants and blur placeholders from raw/.
+// Builds responsive AVIF and WebP variants and blur placeholders from raw/.
+// The site serves no JPEG photos: AVIF where the browser supports it, WebP otherwise.
+// The only JPEGs written are the social share cards (og-*.jpg), because some
+// chat apps still don't show WebP link previews.
 // Usage: npm run images
 import sharp from 'sharp';
-import { readdir, writeFile, mkdir } from 'node:fs/promises';
+import { readdir, writeFile, mkdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 
 const RAW = 'raw';
 const OUT = 'public/img';
-const WIDTHS = [480, 760];
+const WIDTHS = [480, 760, 1200];
+await rm(OUT, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
+await rm('public/og', { recursive: true, force: true });
+await mkdir('public/og', { recursive: true });
+
+// Destination hero photos also get a share card for their page's link preview.
+const { DESTINATIONS } = await import('../src/data/content.js');
+const SHARE = new Set(DESTINATIONS.map((d) => d.image));
 
 const manifest = {};
 for (const file of (await readdir(RAW)).sort()) {
@@ -20,13 +30,14 @@ for (const file of (await readdir(RAW)).sort()) {
     const r = img.clone().resize({ width: w });
     await r.clone().avif({ quality: 55 }).toFile(`${OUT}/${name}-${w}.avif`);
     await r.clone().webp({ quality: 78 }).toFile(`${OUT}/${name}-${w}.webp`);
-    await r.clone().jpeg({ quality: 80, mozjpeg: true }).toFile(`${OUT}/${name}-${w}.jpg`);
   }
-  const lqip = await img.clone().resize({ width: 16 }).blur(1).jpeg({ quality: 50 }).toBuffer();
+  const lqip = await img.clone().resize({ width: 16 }).blur(1).webp({ quality: 50 }).toBuffer();
   const { dominant } = await img.clone().stats();
+  // 1200x630 share card for link previews.
+  if (SHARE.has(name)) await img.clone().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 80, mozjpeg: true }).toFile(`public/og/${name}.jpg`);
   manifest[name] = {
     w: width, h: height, widths,
-    lqip: `data:image/jpeg;base64,${lqip.toString('base64')}`,
+    lqip: `data:image/webp;base64,${lqip.toString('base64')}`,
     tone: `rgb(${dominant.r},${dominant.g},${dominant.b})`,
   };
 }

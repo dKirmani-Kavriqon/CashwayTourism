@@ -13,7 +13,6 @@ import { Reveal, SplitWords, ClipReveal, EASE } from '../lib/motion.jsx';
 import { DEST_BY_SLUG, EXPERIENCES, MAP_POINTS, ROUTES, SEASONS, PHOTOS } from '../data/content.js';
 import { BRAND } from '../config.js';
 import useSeo from '../lib/useSeo.js';
-import IMAGES from '../data/images.json';
 
 export default function Destination() {
   const { slug } = useParams();
@@ -22,7 +21,7 @@ export default function Destination() {
     title: d ? `${d.name}, Kashmir` : 'Not found',
     description: d ? `${d.name} (${d.meaning.toLowerCase()}): ${d.lede}` : 'Page not found.',
     path: `/destinations/${slug}`,
-    image: d?.image ? `/img/${d.image}-${IMAGES[d.image].widths.at(-1)}.jpg` : undefined,
+    image: d?.image ? `/og/${d.image}.jpg` : undefined,
     jsonLd: d && {
       '@context': 'https://schema.org', '@type': 'TouristDestination', name: `${d.name}, Kashmir`,
       description: d.lede, geo: { '@type': 'GeoCoordinates', latitude: d.coords[0], longitude: d.coords[1] },

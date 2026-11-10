@@ -162,7 +162,7 @@ function Statement() {
 
 /* --------------------------------------------------------- Seasons */
 const SEASON_PANELS = [
-  { key: 'spring', name: 'Spring', months: 'March to May', img: 'papier-mache', imgNote: 'The valley’s flowers, painted by hand in papier-mâché',
+  { key: 'spring', name: 'Spring', months: 'March to May', img: 'tulip-garden',
     text: 'Almond and apple blossom, and Srinagar’s tulip garden in brief, brilliant bloom.', to: '/destinations/srinagar' },
   { key: 'summer', name: 'Summer', months: 'June to August', img: 'doodhpathri',
     text: 'Green meadows, open passes, and shepherds driving their flocks to the high pastures.', to: '/destinations/doodhpathri' },

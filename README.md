@@ -9,7 +9,7 @@ The website for **KashWay Tour & Travels** (kashway.in), a Srinagar travel compa
 - Framer Motion for the motion system (page transitions, word reveals, clip-path image reveals, parallax, the horizontal seasons scroll)
 - Leaflet + OpenStreetMap tiles for the interactive map (loaded only when the map scrolls into view)
 - Self-hosted variable fonts: Newsreader (display/editorial) and Hanken Grotesk (UI/body)
-- `sharp` image pipeline: AVIF, WebP and JPEG at two widths, plus blur placeholders
+- `sharp` image pipeline: AVIF and WebP (no JPEG photos) at up to three widths, plus blur placeholders and JPEG link-preview cards
 
 ```bash
 npm install
@@ -53,17 +53,18 @@ How the enquiry is delivered depends on `src/config.js` (or the matching env var
 
 | Setting | Effect |
 | --- | --- |
-| `VITE_WHATSAPP_NUMBER` | “Send on WhatsApp” opens WhatsApp with the whole enquiry written out |
+| `VITE_WHATSAPP_LINK` (default: KashWay’s `wa.me/message/JP7YQVJ6WYF4K1` business link) | “Send on WhatsApp” copies the whole enquiry in the same tap and opens the KashWay chat, where the traveller pastes it and presses send. A `wa.me/message/…` link cannot carry text of its own, so this paste step is needed |
+| `VITE_WHATSAPP_NUMBER` | Takes over from the link: WhatsApp opens with the whole enquiry already typed into the message, so the traveller only presses send |
 | `VITE_FORM_ENDPOINT` | “Send enquiry” POSTs JSON to a form backend (Formspree, Web3Forms, a Worker…) and shows its real success or error |
-| `VITE_ENQUIRY_EMAIL` | Adds “Email instead” |
-| *(none set)* | Copies the enquiry and opens an Instagram DM to @kashway.in |
+| `VITE_ENQUIRY_EMAIL` (default: contactkashway@gmail.com) | Adds “Email instead”, and shows the address in the footer, menu and Plan page |
+| *(no WhatsApp at all)* | Copies the enquiry and opens an Instagram DM to @kashway.in |
 
 Nothing claims an enquiry was received unless a backend confirmed it.
 
 ## Before launch
 
-1. **WhatsApp number** for `VITE_WHATSAPP_NUMBER` (the Instagram bio only shows a `wa.me/message/…` short link, which cannot carry a pre-filled message).
+1. **WhatsApp number** for `VITE_WHATSAPP_NUMBER`, so the enquiry arrives already typed in. Until then the planner uses the business link and a copy-and-paste step.
 2. **Photography.** The current photos were supplied by KashWay and appear to be web downloads at about 736 px wide. Licences need confirming, and full-resolution originals will make the desktop hero much sharper. See `PHOTO-NOTES.md`.
 3. **Real business content.** No prices, packages, testimonials, statistics or awards have been invented. Add them in `src/data/content.js` when KashWay provides them. The About story is written from the brand’s public profile and should be checked by KashWay.
 4. **Map tiles.** OpenStreetMap’s public tile server suits low traffic only; set `VITE_TILE_URL` to a keyed provider for production.
-5. Contour illustrations stand in for experiences that don’t have a photograph yet.
+5. Contour illustrations stand in for any experience that doesn’t have a photograph (currently the Kashmir Great Lakes trek; see `PHOTO-NOTES.md`).
