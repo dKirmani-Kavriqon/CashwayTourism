@@ -1,9 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MAP_POINTS, MAP_CATEGORIES, DEST_BY_SLUG } from '../data/content.js';
+import { MAP_POINTS, MAP_CATEGORIES, DEST_BY_SLUG, PHOTOS } from '../data/content.js';
+
+const BASE = import.meta.env.BASE_URL;
+const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 import { TILE_URL, TILE_ATTRIBUTION } from '../config.js';
-import Picture from './Picture.jsx';
+import IMAGES from '../data/images.json';
+import { ZoomPhoto } from './PhotoViewer.jsx';
 import Topo from './Topo.jsx';
 import { Arrow, Pin, Close } from './Icons.jsx';
 import { EASE } from '../lib/motion.jsx';
@@ -57,9 +61,13 @@ export default function MapView({ focus, points = MAP_POINTS, height = '78vh' })
     Object.values(markers.current).forEach((mk) => mk.remove());
     markers.current = {};
     visible.forEach((p) => {
+      // Hovering or focusing a marker shows a small photo preview above it.
+      const thumb = p.image && IMAGES[p.image]
+        ? `<em class="mk__pop" aria-hidden="true"><img src="${BASE}img/${p.image}-thumb.webp" alt="" width="200" height="200" loading="lazy" decoding="async"><span>${esc(p.name)}</span></em>`
+        : '';
       const icon = L.divIcon({
         className: '',
-        html: `<span class="mk mk--${p.cat}${sel === p.id ? ' is-on' : ''}"><i></i><b>${p.name}</b></span>`,
+        html: `<span class="mk mk--${p.cat}${thumb ? ' has-pop' : ''}${sel === p.id ? ' is-on' : ''}"><i></i><b>${esc(p.name)}</b>${thumb}</span>`,
         iconSize: [18, 18], iconAnchor: [9, 9],
       });
       const mk = L.marker(p.coords, { icon, title: p.name, alt: p.name, keyboard: true, riseOnHover: true })
@@ -84,6 +92,8 @@ export default function MapView({ focus, points = MAP_POINTS, height = '78vh' })
     map.current?.flyTo(p.coords, Math.max(map.current.getZoom(), 12), { duration: 1.2 });
   };
   const current = points.find((p) => p.id === sel);
+  // Every map photo, in list order, so the full-screen viewer can swipe between places.
+  const album = useMemo(() => [...new Set(visible.map((p) => p.image).filter((n) => n && IMAGES[n]))], [visible]);
   const dest = current?.dest && DEST_BY_SLUG[current.dest];
 
   return (
@@ -101,7 +111,9 @@ export default function MapView({ focus, points = MAP_POINTS, height = '78vh' })
           {visible.map((p) => (
             <li key={p.id}>
               <button type="button" className="mapx__item" aria-pressed={sel === p.id} onClick={() => choose(p)}>
-                <span className={`dot dot--${p.cat}`} aria-hidden="true" />
+                {p.image && IMAGES[p.image]
+                  ? <img className="mapx__thumb" src={`${BASE}img/${p.image}-thumb.webp`} alt="" width="40" height="40" loading="lazy" decoding="async" />
+                  : <span className={`dot dot--${p.cat}`} aria-hidden="true" />}
                 <span>{p.name}</span>
                 <span className="mapx__cat">{MAP_CATEGORIES[p.cat]}</span>
               </button>
@@ -122,7 +134,9 @@ export default function MapView({ focus, points = MAP_POINTS, height = '78vh' })
                 transition={{ duration: 0.45, ease: EASE }}>
                 <button type="button" className="icon-btn mapx__close" onClick={() => setSel(null)} aria-label="Close preview"><Close size={16} /></button>
                 <div className="mapx__media">
-                  {current.image ? <Picture name={current.image} sizes="320px" /> : <Topo seed={current.id} accent={dest?.accent} rings={10} />}
+                  {current.image && IMAGES[current.image]
+                    ? <ZoomPhoto name={current.image} group={album} sizes="(max-width: 760px) 40vw, 180px" label={`Enlarge photo: ${PHOTOS[current.image]?.caption || current.name}`} />
+                    : <Topo seed={current.id} accent={dest?.accent} rings={10} />}
                 </div>
                 <div className="mapx__info">
                   <span className="eyebrow eyebrow--plain">{MAP_CATEGORIES[current.cat]}</span>

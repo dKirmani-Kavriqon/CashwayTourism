@@ -18,9 +18,18 @@ All photographs in `raw/` were supplied by KashWay. `npm run images` turns them 
 | `wazwan.jpg` | Wazwan dishes on an engraved silver platter | Wazwan experience, Food filter | Licence unknown. |
 | `tulip-garden.jpg` | Rows of tulips, pine hills and snow peaks | “Spring at the Tulip Garden, Srinagar” (Spring on the home page, Tulip season experience, Srinagar album) | Matches the Indira Gandhi Memorial Tulip Garden below the Zabarwan range. Licence unknown. |
 | `first-snow.jpg` | Snowboard standing in fresh snow above a sea of cloud | “A first snow day” | Not tied to a place on the site: the scenery does not identify Kashmir. Licence unknown. |
+| `great-lakes.jpg` | Turquoise alpine lake below steep ridges, a trekker on the shore | “An alpine lake on the Kashmir Great Lakes trek” (first in the gallery, Great Lakes experience, map) | Identified as the Great Lakes trek by KashWay; the exact lake isn’t named on the site. Licence unknown. |
+| `aru-valley.jpg` | Stream over mossy boulders below pines | Aru Valley on the map, Pahalgam album | Identified as Aru Valley by KashWay. **Looks AI-generated or heavily edited** (very uniform trees, painted-looking light). Licence unknown. |
+| `betaab-valley.jpg` | Turquoise river winding through meadows | Betaab Valley on the map, Pahalgam album | Matches the well-known view of Betaab Valley. Licence unknown. |
+| `thajiwas-glacier.jpg` | Snow peaks above pine forest and a river valley | Thajiwas Glacier on the map, Sonamarg album | Identified as Thajiwas by KashWay. Licence unknown. |
+| `jamia-masjid.jpg` | Jamia Masjid gateway, Hari Parbat fort behind | Jamia Masjid on the map, Srinagar album | Heavily HDR-edited. Licence unknown. |
+| `hazratbal.jpg` | Hazratbal Shrine, Hari Parbat fort and snowy peaks | Hazratbal on the map, Srinagar album | **Carries a photographer’s watermark (“Tufail Shah Photography”)**: needs the photographer’s permission and a credit, or a replacement. |
+| `tulip-rows.jpg` | Red and yellow tulip beds below wooded hills | Tulip Garden on the map, Srinagar album | Licence unknown. |
+| `shalimar-bagh.jpg` | Water channel between two pavilions, chinars in autumn | Shalimar Bagh on the map, Srinagar album | Identified as Shalimar Bagh by KashWay. Licence unknown. |
+| `nishat-bagh.jpg` | Fountain channel running down to Dal Lake at sunset | Nishat Bagh on the map, Srinagar album | Identified as Nishat Bagh by KashWay. Licence unknown. |
 | `teaser.jpg` | KashWay teaser poster | About page | KashWay’s own marketing image. |
 | `logo-crop.png` | KashWay logo | Nav, footer, favicon | Cropped from the Instagram profile picture. A vector original would be sharper. |
 
-**Not used:** the photo sent as “Kashmir Great Lakes” (a lake below a steep ridge, with pink flowers in front). It appears to be Ratti Gali Lake in the Neelum Valley, Pakistan-administered Kashmir, not the Kashmir Great Lakes trek, and it carries the watermark of Instagram photographer @sheraliphotography, so it needs both a location check and the photographer’s permission.
+**Not used:** the first photo sent as “Kashmir Great Lakes” (a lake below a steep ridge, with pink flowers in front; KashWay later sent the replacement above). It appears to be Ratti Gali Lake in the Neelum Valley, Pakistan-administered Kashmir, not the Kashmir Great Lakes trek, and it carries the watermark of Instagram photographer @sheraliphotography, so it needs both a location check and the photographer’s permission.
 
 **Also not used:** the photo of a blue-roofed lodge beneath a huge snow peak. It appears to be Fairy Meadows with Nanga Parbat, in Gilgit-Baltistan (Pakistan), not Kashmir, so it is left out of the site.

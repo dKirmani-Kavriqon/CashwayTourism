@@ -7,7 +7,7 @@ The website for **KashWay Tour & Travels** (kashway.in), a Srinagar travel compa
 
 - Vite + React 18, React Router (clean URLs, code-split pages)
 - Framer Motion for the motion system (page transitions, word reveals, clip-path image reveals, parallax, the horizontal seasons scroll)
-- Leaflet + OpenStreetMap tiles for the interactive map (loaded only when the map scrolls into view)
+- Leaflet + OpenStreetMap tiles for the interactive map (loaded only when the map scrolls into view). Every place has a photo: a small preview pops up on hover or keyboard focus, and selecting a place opens a card whose photo enlarges into the full-screen viewer
 - Self-hosted variable fonts: Newsreader (display/editorial) and Hanken Grotesk (UI/body)
 - `sharp` image pipeline: AVIF and WebP (no JPEG photos) at up to three widths, plus blur placeholders and JPEG link-preview cards
 
@@ -53,8 +53,8 @@ How the enquiry is delivered depends on `src/config.js` (or the matching env var
 
 | Setting | Effect |
 | --- | --- |
-| `VITE_WHATSAPP_LINK` (default: KashWay’s `wa.me/message/JP7YQVJ6WYF4K1` business link) | “Send on WhatsApp” copies the whole enquiry in the same tap and opens the KashWay chat, where the traveller pastes it and presses send. A `wa.me/message/…` link cannot carry text of its own, so this paste step is needed |
-| `VITE_WHATSAPP_NUMBER` | Takes over from the link: WhatsApp opens with the whole enquiry already typed into the message, so the traveller only presses send |
+| `VITE_WHATSAPP_NUMBER` (default: KashWay’s +91 70061 09364) | “Send on WhatsApp” opens a chat with KashWay with the whole enquiry already typed into the message, so the traveller only presses send |
+| `VITE_WHATSAPP_LINK` | Only used if the number is cleared: copies the enquiry and opens KashWay’s `wa.me/message/…` business link for the traveller to paste it, since those links can’t carry text |
 | `VITE_FORM_ENDPOINT` | “Send enquiry” POSTs JSON to a form backend (Formspree, Web3Forms, a Worker…) and shows its real success or error |
 | `VITE_ENQUIRY_EMAIL` (default: contactkashway@gmail.com) | Adds “Email instead”, and shows the address in the footer, menu and Plan page |
 | *(no WhatsApp at all)* | Copies the enquiry and opens an Instagram DM to @kashway.in |
@@ -63,8 +63,7 @@ Nothing claims an enquiry was received unless a backend confirmed it.
 
 ## Before launch
 
-1. **WhatsApp number** for `VITE_WHATSAPP_NUMBER`, so the enquiry arrives already typed in. Until then the planner uses the business link and a copy-and-paste step.
-2. **Photography.** The current photos were supplied by KashWay and appear to be web downloads at about 736 px wide. Licences need confirming, and full-resolution originals will make the desktop hero much sharper. See `PHOTO-NOTES.md`.
-3. **Real business content.** No prices, packages, testimonials, statistics or awards have been invented. Add them in `src/data/content.js` when KashWay provides them. The About story is written from the brand’s public profile and should be checked by KashWay.
-4. **Map tiles.** OpenStreetMap’s public tile server suits low traffic only; set `VITE_TILE_URL` to a keyed provider for production.
-5. Contour illustrations stand in for any experience that doesn’t have a photograph (currently the Kashmir Great Lakes trek; see `PHOTO-NOTES.md`).
+1. **Photography.** The current photos were supplied by KashWay and appear to be web downloads at about 736 px wide. Licences need confirming, and full-resolution originals will make the desktop hero much sharper. See `PHOTO-NOTES.md`.
+2. **Real business content.** No prices, packages, testimonials, statistics or awards have been invented. Add them in `src/data/content.js` when KashWay provides them. The About story is written from the brand’s public profile and should be checked by KashWay.
+3. **Map tiles.** OpenStreetMap’s public tile server suits low traffic only; set `VITE_TILE_URL` to a keyed provider for production.
+4. Every experience and map place now has a photograph. Contour illustrations remain as the fallback for any new one added without a photo.
