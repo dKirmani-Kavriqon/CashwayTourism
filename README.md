@@ -1,6 +1,6 @@
 # KashWay Tour & Travels website
 
-The website for **KashWay Tour & Travels** (kashway.in), a Srinagar travel company recognised by the J&K Tourism Department.
+The website for **KashWay Tour & Travels** (www.kashwaytours.com), a Srinagar travel company recognised by the J&K Tourism Department.
 *Discover Kashmir, the way it’s meant to be.*
 
 ## Stack
@@ -31,7 +31,7 @@ All titles, descriptions, share cards and structured data live in `src/data/seo.
 - **Structured data (JSON-LD).** The business (`TravelAgency`: address, phone, email, WhatsApp, Instagram, the places it serves) and the `WebSite` on every page. Each destination adds a `TouristDestination` with its sights and a `BreadcrumbList`, and the guide adds a `FAQPage`.
 - **Also included.** `sitemap.xml` (generated, with each page's images), `robots.txt`, a web app manifest and icons (32, 180, 192 and 512 px), and geo tags for Srinagar.
 
-The share links point at `https://kashway.in`, so previews show once the domain serves this site. Facebook's [Sharing Debugger](https://developers.facebook.com/tools/debug/) refreshes a cached preview.
+The share links point at `https://www.kashwaytours.com` (set in `src/data/seo.js`), so previews show once that domain serves this site. Facebook's [Sharing Debugger](https://developers.facebook.com/tools/debug/) refreshes a cached preview.
 `VITE_ROUTER=hash npm run build` makes a copy that runs from any file host without rewrites (used for previews).
 
 ## Pages

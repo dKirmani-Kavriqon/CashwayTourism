@@ -36,7 +36,7 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 function page(card, photo) {
   const [first, ...rest] = card.headline || [];
-  const host = SITE.url.replace(/^https?:\/\//, '');
+  const host = SITE.url.replace(/^https?:\/\/(www\.)?/, '');
   return `<!doctype html><html><head><meta charset="utf-8"><style>
   @font-face { font-family: 'Newsreader'; src: url('${SERIF}') format('woff2'); font-weight: 200 800; }
   @font-face { font-family: 'Newsreader'; font-style: italic; src: url('${SERIF_I}') format('woff2'); font-weight: 200 800; }

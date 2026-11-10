@@ -105,7 +105,7 @@ function copyNow(text) {
 }
 
 function messageText(d) {
-  return ['Hello KashWay, I’d like to plan a trip to Kashmir.', '', ...summary(d).map(([k, v]) => `${k}: ${v}`), '', 'Sent from kashway.in'].join('\n');
+  return ['Hello KashWay, I’d like to plan a trip to Kashmir.', '', ...summary(d).map(([k, v]) => `${k}: ${v}`), '', 'Sent from kashwaytours.com'].join('\n');
 }
 
 /* ----------------------------- Steps ------------------------------------ */
@@ -290,7 +290,7 @@ function PlannerSheet({ data, setData, step, setStep, status, setStatus, onClose
       const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...Object.fromEntries(summary(data)), message: msg, source: 'kashway.in trip planner' }),
+        body: JSON.stringify({ ...Object.fromEntries(summary(data)), message: msg, source: 'kashwaytours.com trip planner' }),
       });
       if (!res.ok) throw new Error(`The server answered ${res.status}.`);
       setStatus({ state: 'done', via: 'form' });

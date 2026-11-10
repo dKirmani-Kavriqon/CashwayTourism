@@ -11,7 +11,7 @@ import { DESTINATIONS, DEST_BY_SLUG, PHOTOS } from './content.js';
 import { FAQS } from './guides.js';
 
 export const SITE = {
-  url: 'https://kashway.in',
+  url: 'https://www.kashwaytours.com',
   name: 'KashWay',
   legalName: 'KashWay Tour & Travels',
   tagline: 'Discover Kashmir, the way it’s meant to be.',
